@@ -56,80 +56,48 @@ public class PlayerInput : MonoBehaviour
 
     private void PlayerCombatInputEnable()
     {
-        playerControls.Combat.Shoot.performed += Shoot_performed;
-        playerControls.Combat.Shoot.canceled += Shoot_canceled;
-        playerControls.Combat.AimDownSight.performed += AimDownSight_performed;
-        playerControls.Combat.AimDownSight.canceled += AimDownSight_canceled;
-        playerControls.Combat.Jump.performed += Jump_performed;
-        playerControls.Combat.Jump.canceled += Jump_canceled;
-        playerControls.Combat.Sprint.performed += Sprint_performed;
-        playerControls.Combat.Sprint.canceled += Sprint_canceled;
+        playerControls.Combat.Shoot.started += OnShoot;
+        playerControls.Combat.Shoot.canceled += OnShoot;
+        playerControls.Combat.AimDownSight.started += OnAim;
+        playerControls.Combat.AimDownSight.canceled += OnAim;
+        playerControls.Combat.Jump.started += OnJump;
+        playerControls.Combat.Jump.canceled += OnJump;
+        playerControls.Combat.Sprint.started += OnSprint;
+        playerControls.Combat.Sprint.canceled += OnSprint;
     }
 
     private void PlayerCombatInputDisable()
     {
-        playerControls.Combat.Shoot.performed -= Shoot_performed;
-        playerControls.Combat.Shoot.canceled -= Shoot_canceled;
-        playerControls.Combat.AimDownSight.performed -= AimDownSight_performed;
-        playerControls.Combat.AimDownSight.canceled -= AimDownSight_canceled;
-        playerControls.Combat.Jump.performed -= Jump_performed;
-        playerControls.Combat.Jump.canceled -= Jump_canceled;
-        playerControls.Combat.Sprint.performed -= Sprint_performed;
-        playerControls.Combat.Sprint.canceled -= Sprint_canceled;
+        playerControls.Combat.Shoot.started -= OnShoot;
+        playerControls.Combat.Shoot.canceled -= OnShoot;
+        playerControls.Combat.AimDownSight.started -= OnAim;
+        playerControls.Combat.AimDownSight.canceled -= OnAim;
+        playerControls.Combat.Jump.started -= OnJump;
+        playerControls.Combat.Jump.canceled -= OnJump;
+        playerControls.Combat.Sprint.started -= OnSprint;
+        playerControls.Combat.Sprint.canceled -= OnSprint;
     }
 
     #endregion
 
-    #region Shoot Events
+    #region Events
 
-    private void Shoot_canceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        isShooting = !isShooting;
-    }
-
-    private void Shoot_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void OnShoot(InputAction.CallbackContext context)
     {
         isShooting = context.ReadValueAsButton();
     }
 
-    #endregion
-
-    #region Aim Events
-
-    private void AimDownSight_canceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        isAiming = !isAiming;
-    }
-
-    private void AimDownSight_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void OnAim(InputAction.CallbackContext context)
     {
         isAiming = context.ReadValueAsButton();
     }
 
-    #endregion
-
-    #region Jump Events
-
-    private void Jump_canceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        jumped = !jumped;
-    }
-
-    private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void OnJump(InputAction.CallbackContext context)
     {
         jumped = context.ReadValueAsButton();
     }
 
-    #endregion
-
-    #region Sprint Events
-
-    private void Sprint_canceled(InputAction.CallbackContext context)
-    {
-        isSprinting = !isSprinting;
-    }
-
-    private void Sprint_performed(InputAction.CallbackContext context)
+    private void OnSprint(InputAction.CallbackContext context)
     {
         isSprinting = context.ReadValueAsButton();
     }
