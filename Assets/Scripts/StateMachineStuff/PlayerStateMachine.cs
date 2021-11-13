@@ -11,6 +11,11 @@ namespace StateMachineStuff
         PlayerBaseState currentState;
         PlayerStateFactory states;
         PlayerInput input;
+		Animator animator;
+		CharacterController controller;
+		GameObject mainCamera;
+
+		#region Private Variables
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
@@ -57,32 +62,145 @@ namespace StateMachineStuff
 		[Tooltip("For locking the camera position on all axis")]
 		[SerializeField] private bool lockCameraPosition = false;
 
+		// cinemachine - all are only used in the the camerarotation method, may not need own state
+		private float cinemachineTargetYaw;
+		private float cinemachineTargetPitch;
+		[SerializeField] private float lookXSensitivity = 1f;
+		[SerializeField] private float lookYSensitivity = 1f;
 
-		//Getters and setters
+		// player
+		private float speed;
+		private float animationBlend;
+		private float targetRotation = 0.0f;
+		private float rotationVelocity;
+		private float verticalVelocity;
+		private float terminalVelocity = 53.0f;
+
+		// timeout deltatime
+		private float jumpTimeoutDelta;
+		private float fallTimeoutDelta;
+
+		//All Getters
+		// animation IDs
+		private int animIDSpeed;
+		private int animIDGrounded;
+		private int animIDJump;
+		private int animIDFreeFall;
+		private int animIDMotionSpeed;
+
+		private const float threshold = 0.01f;
+
+		private bool hasAnimator;
+
+		#endregion
+
+		#region Getters and Setters
+
 		public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
         public PlayerInput Input => input;
+		public Animator Animator => animator;
+		public CharacterController Controller => controller;
+		public GameObject MainCamera => mainCamera;
+		public float MoveSpeed => moveSpeed;
+		public float SprintSpeed => sprintSpeed;
+		public float RotationSmoothTime => rotationSmoothTime;
+		public float SpeedChangeRate => speedChangeRate;
+		public float JumpHeight => jumpHeight;
+		public float Gravity => gravity;
+		public float JumpTimeout => jumpTimeout;
+		public float FallTimeout => fallTimeout;
+		public bool Grounded => grounded;
+		public float GroundedOffset => groundedOffset;
+		public float GroundedRadius => groundedRadius;
+		public LayerMask GroundLayers => groundLayers;
+		public GameObject CinemachineCameraTarget => cinemachineCameraTarget;
+		public float Speed { get { return speed; } set { speed = value; } }
+		public float AnimationBlend { get { return animationBlend; } set { animationBlend = value; } }
+		public float TargetRotation { get { return targetRotation; } set { targetRotation = value; } }
+		public float RotationVelocity { get { return rotationVelocity; } set { rotationVelocity = value; } }
+		public float VerticalVelocity { get { return verticalVelocity; } set { verticalVelocity = value; } }
+		public float TerminalVelocity { get { return terminalVelocity; } set { terminalVelocity = value; } }
+		public float JumpTimeoutDelta { get { return jumpTimeoutDelta; } set { jumpTimeoutDelta = value; } }
+		public float FallTimeoutDelta { get { return fallTimeoutDelta; } set { fallTimeoutDelta = value; } }
+		public int AnimIDSpeed => animIDSpeed;
+		public int AnimIDGrounded => animIDGrounded;
+		public int AnimIDJump => animIDJump;
+		public int AnimIDFreeFall => animIDFreeFall;
+		public int AnimIDMotionSpeed => animIDMotionSpeed;
+		public bool HasAnimator => hasAnimator;
+
+        #endregion
 
         private void Awake()
         {
-            //Setup state
-            states = GetComponent<PlayerStateFactory>();
+			// get a reference to our main camera
+			if (mainCamera == null)
+			{
+				mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
+
+			//Setup state
+			states = GetComponent<PlayerStateFactory>();
             //states = new PlayerStateFactory(this);
             currentState = states.Grounded();
             currentState.EnterState();
-
-            input = GetComponent<PlayerInput>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
+			hasAnimator = TryGetComponent(out animator);
+			controller = GetComponent<CharacterController>();
+			input = GetComponent<PlayerInput>();
 
-        }
+			AssignAnimationIDs();
+
+			jumpTimeoutDelta = JumpTimeout;
+			fallTimeoutDelta = FallTimeout;
+		}
 
         // Update is called once per frame
         void Update()
         {
             currentState.UpdateStates();
         }
-    }
+
+        private void LateUpdate()
+        {
+			CameraRotation();
+        }
+
+        private void AssignAnimationIDs()
+		{
+			animIDSpeed = Animator.StringToHash("Speed");
+			animIDGrounded = Animator.StringToHash("Grounded");
+			animIDJump = Animator.StringToHash("Jump");
+			animIDFreeFall = Animator.StringToHash("FreeFall");
+			animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+		}
+
+		private void CameraRotation()
+		{
+			// if there is an input and camera position is not fixed
+			if (input.LookVector.sqrMagnitude >= threshold && !lockCameraPosition)
+			{
+				cinemachineTargetYaw += input.LookVector.x * Time.deltaTime * lookXSensitivity;
+				cinemachineTargetPitch += input.LookVector.y * Time.deltaTime * lookYSensitivity;
+			}
+
+			// clamp our rotations so our values are limited 360 degrees
+			cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
+			cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+
+			// Cinemachine will follow this target
+			CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch + cameraAngleOverride, cinemachineTargetYaw, 0.0f);
+		}
+
+		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+		{
+			if (lfAngle < -360f) lfAngle += 360f;
+			if (lfAngle > 360f) lfAngle -= 360f;
+			return Mathf.Clamp(lfAngle, lfMin, lfMax);
+		}
+	}
 }
