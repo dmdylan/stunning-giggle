@@ -14,5 +14,25 @@ namespace StateMachineStuff
         {
             return new PlayerGroundedState(context, this);
         }
+
+        public PlayerBaseState Jumped()
+        {
+            return new PlayerJumpingState(context, this);
+        }
+
+        public PlayerBaseState Idle()
+        {
+            return new PlayerIdleState(context, this);
+        }
+
+        public PlayerBaseState Walking()
+        {
+            return new PlayerWalkingState(context, this);
+        }
+
+        public PlayerBaseState Running()
+        {
+            return new PlayerRunningState(context, this);
+        }
     }
 }

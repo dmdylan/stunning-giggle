@@ -109,7 +109,7 @@ namespace StateMachineStuff
 		public float Gravity => gravity;
 		public float JumpTimeout => jumpTimeout;
 		public float FallTimeout => fallTimeout;
-		public bool Grounded => grounded;
+		public bool Grounded { get { return grounded; } set { grounded = value; } }
 		public float GroundedOffset => groundedOffset;
 		public float GroundedRadius => groundedRadius;
 		public LayerMask GroundLayers => groundLayers;
@@ -162,6 +162,7 @@ namespace StateMachineStuff
         // Update is called once per frame
         void Update()
         {
+			GroundCheck();
             currentState.UpdateStates();
         }
 
@@ -177,6 +178,19 @@ namespace StateMachineStuff
 			animIDJump = Animator.StringToHash("Jump");
 			animIDFreeFall = Animator.StringToHash("FreeFall");
 			animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+		}
+
+		private void GroundCheck()
+        {
+			// set sphere position, with offset
+			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
+			grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+
+			// update animator if using character
+			if (hasAnimator)
+			{
+				animator.SetBool(AnimIDGrounded, grounded);
+			}
 		}
 
 		private void CameraRotation()

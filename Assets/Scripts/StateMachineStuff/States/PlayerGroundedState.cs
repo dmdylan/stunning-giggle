@@ -10,17 +10,23 @@ namespace StateMachineStuff
             : base(currentContext, playerStateFactory)
         {
             IsRootState = true;
+            InitializeSubState();
         }
 
 
         public override void CheckSwitchStates()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.Jumped && Ctx.JumpTimeout <= 0.0f)
+                SwitchState(Factory.Jumped());
         }
 
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.HasAnimator)
+            {
+                Ctx.Animator.SetBool(Ctx.AnimIDJump, false);
+                Ctx.Animator.SetBool(Ctx.AnimIDFreeFall, false);
+            }
         }
 
         public override void ExitState()
@@ -30,12 +36,27 @@ namespace StateMachineStuff
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.MovementVector == Vector2.zero)
+                SetSubState(Factory.Idle());
+            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+                SetSubState(Factory.Walking());
+            else
+                SetSubState(Factory.Running());
         }
 
         public override void UpdateState()
         {
             CheckSwitchStates();
+
+            if (Ctx.VerticalVelocity < 0.0f)
+            {
+                Ctx.VerticalVelocity = -2f;
+            }
+
+            if (Ctx.JumpTimeoutDelta >= 0.0f)
+            {
+                Ctx.JumpTimeoutDelta -= Time.deltaTime;
+            }
         }
     }
 }
