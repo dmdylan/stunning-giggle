@@ -22,16 +22,21 @@ namespace StateMachineStuff
 
         public override void EnterState()
         {
+            Ctx.FallTimeoutDelta = Ctx.FallTimeout;
+            
             if (Ctx.HasAnimator)
             {
-                Ctx.Animator.SetBool(Ctx.AnimIDJump, false);
-                Ctx.Animator.SetBool(Ctx.AnimIDFreeFall, false);
+                Ctx.Animator.SetBool(Ctx.AnimIDGrounded, Ctx.Grounded);
             }
         }
 
         public override void ExitState()
         {
-            throw new System.NotImplementedException();
+            // update animator if using character
+            if (Ctx.HasAnimator)
+            {
+                Ctx.Animator.SetBool(Ctx.AnimIDGrounded, Ctx.Grounded);
+            }
         }
 
         public override void InitializeSubState()
@@ -58,5 +63,7 @@ namespace StateMachineStuff
                 Ctx.JumpTimeoutDelta -= Time.deltaTime;
             }
         }
+
+
     }
 }

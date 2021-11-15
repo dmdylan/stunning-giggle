@@ -1,3 +1,5 @@
+using System;
+
 namespace StateMachineStuff
 {
     public class PlayerStateFactory
@@ -33,6 +35,36 @@ namespace StateMachineStuff
         public PlayerBaseState Running()
         {
             return new PlayerRunningState(context, this);
+        }
+
+        public PlayerBaseState Shooting()
+        {
+            return new PlayerShootingState(context, this);
+        }
+
+        public PlayerBaseState Aiming()
+        {
+            return new PlayerAimingState(context, this);
+        }
+
+        public PlayerBaseState AimShooting()
+        {
+            return new PlayerAimShootingState(context, this);
+        }
+
+        public PlayerBaseState Building()
+        {
+            return new PlayerBuildingState(context, this);
+        }
+
+        public PlayerBaseState Reloading()
+        {
+            return new PlayerReloadingState(context, this);
+        }
+
+        public PlayerBaseState Falling()
+        {
+            return new PlayerFallingState(context, this);
         }
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace StateMachineStuff
 {
-    public class PlayerAimingState : PlayerBaseState
+    public class PlayerReloadingState : PlayerBaseState
     {
-        public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+        public PlayerReloadingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.InputSystem;
 
 namespace StateMachineStuff
@@ -53,6 +54,10 @@ namespace StateMachineStuff
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
 		[SerializeField] private GameObject cinemachineCameraTarget;
+		[Tooltip("The virtual camera that will be used normally")]
+		[SerializeField] private CinemachineVirtualCamera mainFollowCam;
+		[Tooltip("The virtual camera that will be used for aiming down sights")]
+		[SerializeField] private CinemachineVirtualCamera aimCam;
 		[Tooltip("How far in degrees can you move the camera up")]
 		[SerializeField] private float topClamp = 70.0f;
 		[Tooltip("How far in degrees can you move the camera down")]
@@ -114,6 +119,8 @@ namespace StateMachineStuff
 		public float GroundedRadius => groundedRadius;
 		public LayerMask GroundLayers => groundLayers;
 		public GameObject CinemachineCameraTarget => cinemachineCameraTarget;
+		public CinemachineVirtualCamera MainFollowCam => mainFollowCam;
+		public CinemachineVirtualCamera AimCam => aimCam;
 		public float Speed { get { return speed; } set { speed = value; } }
 		public float AnimationBlend { get { return animationBlend; } set { animationBlend = value; } }
 		public float TargetRotation { get { return targetRotation; } set { targetRotation = value; } }
@@ -162,35 +169,37 @@ namespace StateMachineStuff
         // Update is called once per frame
         void Update()
         {
-			GroundCheck();
             currentState.UpdateStates();
-        }
+
+			//TODO: Move to all root states?
+			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+			if (verticalVelocity < terminalVelocity)
+			{
+				verticalVelocity += gravity * Time.deltaTime;
+			}
+
+			GroundCheck();
+		}
 
         private void LateUpdate()
         {
 			CameraRotation();
         }
 
-        private void AssignAnimationIDs()
+		private void GroundCheck()
+		{
+			// set sphere position, with offset
+			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+			grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+		}
+
+		private void AssignAnimationIDs()
 		{
 			animIDSpeed = Animator.StringToHash("Speed");
 			animIDGrounded = Animator.StringToHash("Grounded");
 			animIDJump = Animator.StringToHash("Jump");
 			animIDFreeFall = Animator.StringToHash("FreeFall");
 			animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-		}
-
-		private void GroundCheck()
-        {
-			// set sphere position, with offset
-			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
-			grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
-
-			// update animator if using character
-			if (hasAnimator)
-			{
-				animator.SetBool(AnimIDGrounded, grounded);
-			}
 		}
 
 		private void CameraRotation()

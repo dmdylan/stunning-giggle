@@ -9,12 +9,15 @@ namespace StateMachineStuff
         public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
-            
+            InitializeSubState();
         }
 
         public override void CheckSwitchStates()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+                SwitchState(Factory.Walking());
+            else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
+                SwitchState(Factory.Running());
         }
 
         public override void EnterState()
@@ -29,12 +32,24 @@ namespace StateMachineStuff
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            if (!Ctx.Grounded)
+                return;
+
+            if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
+                SetSubState(Factory.AimShooting());
+            else if (Ctx.Input.IsAiming)
+                SetSubState(Factory.Aiming());
+            else if (Ctx.Input.IsShooting)
+                SetSubState(Factory.Shooting());
+            else if (Ctx.Input.IsReloading)
+                SetSubState(Factory.Reloading());
+            else if (Ctx.Input.IsBuilding)
+                SetSubState(Factory.Building());
         }
 
         public override void UpdateState()
         {
-            throw new System.NotImplementedException();
+            CheckSwitchStates();
         }
     }
 }

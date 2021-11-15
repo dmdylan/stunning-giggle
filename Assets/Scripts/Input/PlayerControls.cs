@@ -65,6 +65,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""5fb74a39-e4d1-471a-a8b9-ab231477648f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""10026345-d063-42ec-8381-6bab78fe96bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -243,6 +259,50 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b3d0015-7400-4e7b-af4b-567d8bbffe59"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d250667-30d9-4e33-9fe2-adf7072296ca"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bedbd76b-2950-4fe5-8620-15b3e9b9dde2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b021f8b9-4c91-4251-8173-e13c7760a8b9"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +317,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Combat_Shoot = m_Combat.FindAction("Shoot", throwIfNotFound: true);
         m_Combat_AimDownSight = m_Combat.FindAction("AimDownSight", throwIfNotFound: true);
         m_Combat_Jump = m_Combat.FindAction("Jump", throwIfNotFound: true);
+        m_Combat_Build = m_Combat.FindAction("Build", throwIfNotFound: true);
+        m_Combat_Reload = m_Combat.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +374,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Combat_Shoot;
     private readonly InputAction m_Combat_AimDownSight;
     private readonly InputAction m_Combat_Jump;
+    private readonly InputAction m_Combat_Build;
+    private readonly InputAction m_Combat_Reload;
     public struct CombatActions
     {
         private @PlayerControls m_Wrapper;
@@ -322,6 +386,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Shoot => m_Wrapper.m_Combat_Shoot;
         public InputAction @AimDownSight => m_Wrapper.m_Combat_AimDownSight;
         public InputAction @Jump => m_Wrapper.m_Combat_Jump;
+        public InputAction @Build => m_Wrapper.m_Combat_Build;
+        public InputAction @Reload => m_Wrapper.m_Combat_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -349,6 +415,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnJump;
+                @Build.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnBuild;
+                @Reload.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -371,6 +443,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -383,5 +461,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnAimDownSight(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

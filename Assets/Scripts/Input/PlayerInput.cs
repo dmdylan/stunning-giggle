@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class PlayerInput : MonoBehaviour
     private bool isSprinting = false;
     private bool isAiming = false;
     private bool isShooting = false;
+    private bool isReloading = false;
+    private bool isBuilding = false;
 
     public Vector2 MovementVector => movementVector;
     public Vector2 LookVector => lookVector;
@@ -19,6 +22,8 @@ public class PlayerInput : MonoBehaviour
     public bool IsSprinting => isSprinting;
     public bool IsAiming => isAiming;
     public bool IsShooting => isShooting;
+    public bool IsReloading => isReloading;
+    public bool IsBuilding => isBuilding;
 
     private void Awake()
     {
@@ -64,6 +69,10 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.Jump.canceled += OnJump;
         playerControls.Combat.Sprint.started += OnSprint;
         playerControls.Combat.Sprint.canceled += OnSprint;
+        playerControls.Combat.Reload.performed += OnReload;
+        playerControls.Combat.Reload.canceled += OnReload;
+        playerControls.Combat.Build.performed += OnBuild;
+        playerControls.Combat.Build.canceled += OnBuild;
     }
 
     private void PlayerCombatInputDisable()
@@ -76,6 +85,10 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.Jump.canceled -= OnJump;
         playerControls.Combat.Sprint.started -= OnSprint;
         playerControls.Combat.Sprint.canceled -= OnSprint;
+        playerControls.Combat.Reload.performed -= OnReload;
+        playerControls.Combat.Reload.canceled -= OnReload;
+        playerControls.Combat.Build.performed -= OnBuild;
+        playerControls.Combat.Build.canceled -= OnBuild;
     }
 
     #endregion
@@ -100,6 +113,16 @@ public class PlayerInput : MonoBehaviour
     private void OnSprint(InputAction.CallbackContext context)
     {
         isSprinting = context.ReadValueAsButton();
+    }
+
+    private void OnBuild(InputAction.CallbackContext context)
+    {
+        isBuilding = context.ReadValueAsButton();
+    }
+
+    private void OnReload(InputAction.CallbackContext context)
+    {
+        isReloading = context.ReadValueAsButton();
     }
 
     #endregion

@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace StateMachineStuff
 {
-    public class PlayerAimingState : PlayerBaseState
+    public class PlayerAimShootingState : PlayerBaseState
     {
-        public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+        public PlayerAimShootingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
-
+    
         }
 
         public override void CheckSwitchStates()

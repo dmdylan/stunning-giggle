@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace StateMachineStuff
 {
-    public class PlayerAimingState : PlayerBaseState
+    public class PlayerBuildingState : PlayerBaseState 
     {
-        public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+        public PlayerBuildingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
 
@@ -35,6 +35,18 @@ namespace StateMachineStuff
         public override void UpdateState()
         {
             throw new System.NotImplementedException();
+        }
+
+        // Start is called before the first frame update
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
         }
     }
 }
