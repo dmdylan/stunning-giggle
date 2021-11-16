@@ -14,17 +14,17 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
+            Ctx.AimCam.Priority += 10;
         }
 
         public override void ExitState()
         {
-            throw new System.NotImplementedException();
+            Ctx.AimCam.Priority -= 10;
         }
 
         public override void InitializeSubState()
@@ -34,7 +34,7 @@ namespace StateMachineStuff
 
         public override void UpdateState()
         {
-            throw new System.NotImplementedException();
+            CheckSwitchStates();
         }
     }
 }

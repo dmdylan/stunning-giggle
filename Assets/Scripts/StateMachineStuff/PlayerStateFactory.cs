@@ -6,6 +6,9 @@ namespace StateMachineStuff
     {
         PlayerStateMachine context;
 
+        //TODO: Make dictionary to store instances of new states instead of making new ones constantly
+        //then they can be fetched from the dictionary and returned instead of creating a new one
+
         public PlayerStateFactory(PlayerStateMachine currentContext)
         {
             context = currentContext;

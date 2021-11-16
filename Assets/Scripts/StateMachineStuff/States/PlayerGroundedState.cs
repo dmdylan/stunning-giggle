@@ -16,7 +16,7 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.Input.Jumped && Ctx.JumpTimeout <= 0.0f)
+            if (Ctx.Input.Jumped && Ctx.JumpTimeoutDelta <= 0.0f)
                 SwitchState(Factory.Jumped());
         }
 

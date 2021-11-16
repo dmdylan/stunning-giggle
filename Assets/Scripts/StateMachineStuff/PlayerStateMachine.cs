@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.InputSystem;
+using TMPro;
 
 namespace StateMachineStuff
 {
@@ -16,13 +16,17 @@ namespace StateMachineStuff
 		CharacterController controller;
 		GameObject mainCamera;
 
+		[SerializeField] private TextMeshProUGUI stateDebugText;
+
 		#region Private Variables
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
-		[SerializeField] private float moveSpeed = 2.0f;
+		[SerializeField] private float walkSpeed = 2.0f;
 		[Tooltip("Sprint speed of the character in m/s")]
 		[SerializeField] private float sprintSpeed = 5.335f;
+		[Tooltip("Speed of character when aiming down the sights")]
+		[SerializeField] private float adsSpeed = 1.5f;
 		[Tooltip("How fast the character turns to face movement direction")]
 		[Range(0.0f, 0.3f)]
 		[SerializeField] private float rotationSmoothTime = 0.12f;
@@ -76,6 +80,8 @@ namespace StateMachineStuff
 		// player
 		private float speed;
 		private float animationBlend;
+		private float targetSpeed;
+		private float inputMagnitude = 1.0f;
 		private float targetRotation = 0.0f;
 		private float rotationVelocity;
 		private float verticalVelocity;
@@ -106,8 +112,9 @@ namespace StateMachineStuff
 		public Animator Animator => animator;
 		public CharacterController Controller => controller;
 		public GameObject MainCamera => mainCamera;
-		public float MoveSpeed => moveSpeed;
+		public float WalkSpeed => walkSpeed;
 		public float SprintSpeed => sprintSpeed;
+		public float AdsSpeed => adsSpeed;
 		public float RotationSmoothTime => rotationSmoothTime;
 		public float SpeedChangeRate => speedChangeRate;
 		public float JumpHeight => jumpHeight;
@@ -122,7 +129,10 @@ namespace StateMachineStuff
 		public CinemachineVirtualCamera MainFollowCam => mainFollowCam;
 		public CinemachineVirtualCamera AimCam => aimCam;
 		public float Speed { get { return speed; } set { speed = value; } }
+
 		public float AnimationBlend { get { return animationBlend; } set { animationBlend = value; } }
+		public float TargetSpeed { get { return targetSpeed; } set { targetSpeed = value; } }
+		public float InputMagnitude { get { return inputMagnitude; } set { inputMagnitude = value; } }
 		public float TargetRotation { get { return targetRotation; } set { targetRotation = value; } }
 		public float RotationVelocity { get { return rotationVelocity; } set { rotationVelocity = value; } }
 		public float VerticalVelocity { get { return verticalVelocity; } set { verticalVelocity = value; } }
@@ -146,9 +156,15 @@ namespace StateMachineStuff
 				mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 
+			hasAnimator = TryGetComponent(out animator);
+			controller = GetComponent<CharacterController>();
+			input = GetComponent<PlayerInput>();
+
+			AssignAnimationIDs();
+
 			//Setup state
-			states = GetComponent<PlayerStateFactory>();
-            //states = new PlayerStateFactory(this);
+			//states = GetComponent<PlayerStateFactory>();
+			states = new PlayerStateFactory(this);
             currentState = states.Grounded();
             currentState.EnterState();
         }
@@ -156,12 +172,6 @@ namespace StateMachineStuff
         // Start is called before the first frame update
         void Start()
         {
-			hasAnimator = TryGetComponent(out animator);
-			controller = GetComponent<CharacterController>();
-			input = GetComponent<PlayerInput>();
-
-			AssignAnimationIDs();
-
 			jumpTimeoutDelta = JumpTimeout;
 			fallTimeoutDelta = FallTimeout;
 		}
@@ -179,6 +189,19 @@ namespace StateMachineStuff
 			}
 
 			GroundCheck();
+			MovePlayer();
+
+			Debug.Log(jumpTimeoutDelta);
+
+			if (currentState != null && currentState.CurrentSubState == null)
+				stateDebugText.text = "Current State: " + currentState.GetType().Name;
+			else if (currentState.CurrentSubState != null && currentState.CurrentSubState.CurrentSubState == null)
+				stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
+									"Current Substate: " + currentState.CurrentSubState.GetType().Name;
+			else
+				stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
+				"Current Substate: " + currentState.CurrentSubState.GetType().Name + "\n" +
+				"Curren substate substate: " + currentState.CurrentSubState.CurrentSubState.GetType().Name;
 		}
 
         private void LateUpdate()
@@ -191,6 +214,27 @@ namespace StateMachineStuff
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+		}
+
+		private void MovePlayer()
+        {
+			animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
+
+			// normalise input direction
+			Vector3 inputDirection = new Vector3(input.MovementVector.x, 0.0f, input.MovementVector.y).normalized;
+
+			targetRotation = mainCamera.transform.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(0f, targetRotation, 0f);
+
+			inputDirection = transform.TransformDirection(inputDirection);
+			controller.Move(inputDirection * (speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+
+			// update animator if using character
+			if (hasAnimator)
+			{
+				animator.SetFloat(animIDSpeed, animationBlend);
+				animator.SetFloat(animIDMotionSpeed, inputMagnitude);
+			}
 		}
 
 		private void AssignAnimationIDs()

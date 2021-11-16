@@ -22,12 +22,13 @@ namespace StateMachineStuff
 
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
+            Ctx.TargetSpeed = 0f;
+            Ctx.Speed = Ctx.TargetSpeed;
         }
 
         public override void ExitState()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void InitializeSubState()

@@ -12,6 +12,9 @@ namespace StateMachineStuff
         protected PlayerStateMachine Ctx { get { return ctx; } }
         protected PlayerStateFactory Factory { get { return factory; } }
 
+        //For debugging
+        public PlayerBaseState CurrentSubState => currentSubState;
+
         public PlayerBaseState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         {
             ctx = currentContext;
