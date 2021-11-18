@@ -50,6 +50,8 @@ namespace StateMachineStuff
                 SetSubState(Factory.Walking());
             else
                 SetSubState(Factory.Running());
+
+            CurrentSubState.IsSubRootState = true;
         }
 
         public override void UpdateState()

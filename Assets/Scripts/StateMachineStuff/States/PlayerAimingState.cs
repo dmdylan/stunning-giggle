@@ -9,12 +9,13 @@ namespace StateMachineStuff
         public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
-
+            InitializeSubState();
         }
 
         public override void CheckSwitchStates()
         {
-            //throw new System.NotImplementedException();
+            if (!Ctx.Input.IsAiming)
+                Debug.Log("Need to swap out of aiming state");
         }
 
         public override void EnterState()
@@ -29,7 +30,12 @@ namespace StateMachineStuff
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.MovementVector == Vector2.zero)
+                SetSubState(Factory.Idle());
+            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+                SetSubState(Factory.Walking());
+            else
+                SetSubState(Factory.Running());
         }
 
         public override void UpdateState()

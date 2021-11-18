@@ -3,17 +3,20 @@ namespace StateMachineStuff
     public abstract class PlayerBaseState
     {
         private bool isRootState = false;
+        private bool isSubRootState = false;
         private PlayerStateMachine ctx;
         private PlayerStateFactory factory;
         private PlayerBaseState currentSubState;
         private PlayerBaseState currentSuperState;
 
         protected bool IsRootState { set { isRootState = value; } }
+        public bool IsSubRootState { get { return isSubRootState; } set { isRootState = value; } }
         protected PlayerStateMachine Ctx { get { return ctx; } }
         protected PlayerStateFactory Factory { get { return factory; } }
 
         //For debugging
-        public PlayerBaseState CurrentSubState => currentSubState;
+        public PlayerBaseState CurrentSubState => currentSubState;  
+        public PlayerBaseState CurrentSuperState => currentSuperState;
 
         public PlayerBaseState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         {
@@ -36,15 +39,15 @@ namespace StateMachineStuff
         }
 
         //Might not be needed
-        public void ExitStates()
-        {
-            ExitState();
+        //public void ExitStates()
+        //{
+        //    ExitState();
+        //
+        //    if (currentSubState != null)
+        //        currentSubState.ExitStates();
+        //}
 
-            if (currentSubState != null)
-                currentSubState.ExitStates();
-        }
-
-        protected void SwitchState(PlayerBaseState newState)
+        public void SwitchState(PlayerBaseState newState)
         {
             ExitState();
 
@@ -54,8 +57,13 @@ namespace StateMachineStuff
                 //switches current state if it is declared a root state in it's constructor
                 ctx.CurrentState = newState;
             else if (currentSuperState != null)
+            {
                 //sets the current super states sub state to newState
                 currentSuperState.SetSubState(newState);
+            }
+
+            //if(currentSuperState != null && currentSuperState.isRootState == true)
+            //    newState.isSubRootState = true;
         }
 
         protected void SetSuperState(PlayerBaseState newSuperState)
@@ -65,8 +73,12 @@ namespace StateMachineStuff
 
         protected void SetSubState(PlayerBaseState newSubState)
         {
+            //Ex. Grounded's substate would be newSubState
             currentSubState = newSubState;
+            //newSubstate's super state would be grounded
             newSubState.SetSuperState(this);
+            //NewSubState's enter state method
+            newSubState.EnterState();
         }
     }
 }

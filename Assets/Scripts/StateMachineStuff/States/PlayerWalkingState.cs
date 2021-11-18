@@ -9,7 +9,7 @@ namespace StateMachineStuff
         public PlayerWalkingState(PlayerStateMachine currentContext, PlayerStateFactory factory)
             :base(currentContext, factory)
         {
-            InitializeSubState();
+            //InitializeSubState();
         }
 
         public override void CheckSwitchStates()
@@ -50,6 +50,7 @@ namespace StateMachineStuff
         public override void UpdateState()
         {
             CheckSwitchStates();
+            //InitializeSubState();
 
             float currentHorizontalSpeed = new Vector3(Ctx.Controller.velocity.x, 0.0f, Ctx.Controller.velocity.z).magnitude;
 

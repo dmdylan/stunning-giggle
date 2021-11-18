@@ -191,8 +191,6 @@ namespace StateMachineStuff
 			GroundCheck();
 			MovePlayer();
 
-			Debug.Log(jumpTimeoutDelta);
-
 			if (currentState != null && currentState.CurrentSubState == null)
 				stateDebugText.text = "Current State: " + currentState.GetType().Name;
 			else if (currentState.CurrentSubState != null && currentState.CurrentSubState.CurrentSubState == null)
