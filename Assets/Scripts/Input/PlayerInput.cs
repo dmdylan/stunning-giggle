@@ -15,6 +15,8 @@ public class PlayerInput : MonoBehaviour
     private bool isShooting = false;
     private bool isReloading = false;
     private bool isBuilding = false;
+    private bool didMenu = false;
+    private bool didCancel = false;
 
     public Vector2 MovementVector => movementVector;
     public Vector2 LookVector => lookVector;
@@ -24,6 +26,8 @@ public class PlayerInput : MonoBehaviour
     public bool IsShooting => isShooting;
     public bool IsReloading => isReloading;
     public bool IsBuilding => isBuilding;
+    public bool DidMenu => didMenu;
+    public bool DidCancel => didCancel;
 
     private void Awake()
     {
@@ -69,10 +73,14 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.Jump.canceled += OnJump;
         playerControls.Combat.Sprint.started += OnSprint;
         playerControls.Combat.Sprint.canceled += OnSprint;
-        playerControls.Combat.Reload.performed += OnReload;
+        playerControls.Combat.Reload.started += OnReload;
         playerControls.Combat.Reload.canceled += OnReload;
-        playerControls.Combat.Build.performed += OnBuild;
+        playerControls.Combat.Build.started += OnBuild;
         playerControls.Combat.Build.canceled += OnBuild;
+        playerControls.Combat.Cancel.started += OnCancel;
+        playerControls.Combat.Cancel.canceled += OnCancel;
+        playerControls.Combat.Menu.started += OnMenu;
+        playerControls.Combat.Menu.canceled += OnMenu;
     }
 
     private void PlayerCombatInputDisable()
@@ -85,10 +93,14 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.Jump.canceled -= OnJump;
         playerControls.Combat.Sprint.started -= OnSprint;
         playerControls.Combat.Sprint.canceled -= OnSprint;
-        playerControls.Combat.Reload.performed -= OnReload;
+        playerControls.Combat.Reload.started -= OnReload;
         playerControls.Combat.Reload.canceled -= OnReload;
-        playerControls.Combat.Build.performed -= OnBuild;
+        playerControls.Combat.Build.started -= OnBuild;
         playerControls.Combat.Build.canceled -= OnBuild;
+        playerControls.Combat.Cancel.started -= OnCancel;
+        playerControls.Combat.Cancel.canceled -= OnCancel;
+        playerControls.Combat.Menu.started -= OnMenu;
+        playerControls.Combat.Menu.canceled -= OnMenu;
     }
 
     #endregion
@@ -123,6 +135,16 @@ public class PlayerInput : MonoBehaviour
     private void OnReload(InputAction.CallbackContext context)
     {
         isReloading = context.ReadValueAsButton();
+    }
+
+    private void OnMenu(InputAction.CallbackContext context)
+    {
+        didMenu = context.ReadValueAsButton();
+    }
+
+    private void OnCancel(InputAction.CallbackContext context)
+    {
+        didCancel = context.ReadValueAsButton();
     }
 
     #endregion

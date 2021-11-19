@@ -14,12 +14,23 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            if (!Ctx.Input.IsAiming)
-                Debug.Log("Need to swap out of aiming state");
+            if (Ctx.Input.IsSprinting)
+                SwitchState(Factory.Running());
+            else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
+                SwitchState(Factory.AimShooting());
+            else if (!Ctx.Input.IsAiming)
+                SwitchState(CurrentSubState);
+            else if (Ctx.Input.IsShooting)
+                SwitchState(Factory.Shooting());
+            else if (Ctx.Input.IsReloading)
+                SwitchState(Factory.Reloading());
+            else if (Ctx.Input.IsBuilding)
+                SwitchState(Factory.Building());
         }
 
         public override void EnterState()
         {
+            Debug.Log("Entering aiming state");
             Ctx.AimCam.Priority += 10;
         }
 
@@ -32,10 +43,8 @@ namespace StateMachineStuff
         {
             if (Ctx.Input.MovementVector == Vector2.zero)
                 SetSubState(Factory.Idle());
-            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
-                SetSubState(Factory.Walking());
             else
-                SetSubState(Factory.Running());
+                SetSubState(Factory.Walking());
         }
 
         public override void UpdateState()

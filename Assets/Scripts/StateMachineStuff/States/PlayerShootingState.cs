@@ -14,10 +14,9 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            if (!IsSubRootState)
-                return;
-
-            if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
+            if (Ctx.Input.IsSprinting)
+                SwitchState(Factory.Running());
+            else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
                 SwitchState(Factory.AimShooting());
             else if (Ctx.Input.IsAiming)
                 SwitchState(Factory.Aiming());
@@ -36,10 +35,7 @@ namespace StateMachineStuff
 
         public override void ExitState()
         {
-
-
             Debug.Log("Exited shooting state");
-
         }
 
         public override void InitializeSubState()
@@ -48,8 +44,6 @@ namespace StateMachineStuff
                 SetSubState(Factory.Idle());
             else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
                 SetSubState(Factory.Walking());
-            else
-                SetSubState(Factory.Running());
         }
 
         public override void UpdateState()

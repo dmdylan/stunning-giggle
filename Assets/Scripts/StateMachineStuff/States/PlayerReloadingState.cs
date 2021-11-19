@@ -6,10 +6,12 @@ namespace StateMachineStuff
 {
     public class PlayerReloadingState : PlayerBaseState
     {
+        private bool isDoneReloading = false;
+
         public PlayerReloadingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
-
+            InitializeSubState();
         }
 
         public override void CheckSwitchStates()
@@ -29,12 +31,15 @@ namespace StateMachineStuff
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.MovementVector == Vector2.zero)
+                SetSubState(Factory.Idle());
+            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+                SetSubState(Factory.Walking());
         }
 
         public override void UpdateState()
         {
-            throw new System.NotImplementedException();
+            CheckSwitchStates();
         }
     }
 }

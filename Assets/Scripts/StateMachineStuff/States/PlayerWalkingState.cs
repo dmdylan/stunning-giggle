@@ -14,10 +14,30 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.Input.MovementVector == Vector2.zero)
-                SwitchState(Factory.Idle());
-            else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
-                SwitchState(Factory.Running());
+            if (CurrentSuperState != Ctx.CurrentState)
+            {
+                if (Ctx.Input.MovementVector == Vector2.zero)
+                    SwitchState(Factory.Idle());
+                else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
+                    SwitchState(Factory.Running());
+            }
+            else
+            {
+                if (Ctx.Input.MovementVector == Vector2.zero)
+                    SwitchState(Factory.Idle());
+                else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
+                    SwitchState(Factory.Running());
+                else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
+                    SwitchState(Factory.AimShooting());
+                else if (Ctx.Input.IsAiming)
+                    SwitchState(Factory.Aiming());
+                else if (Ctx.Input.IsShooting)
+                    SwitchState(Factory.Shooting());
+                else if (Ctx.Input.IsReloading)
+                    SwitchState(Factory.Reloading());
+                else if (Ctx.Input.IsBuilding)
+                    SwitchState(Factory.Building());
+            }
         }
 
         public override void EnterState()
@@ -32,19 +52,7 @@ namespace StateMachineStuff
 
         public override void InitializeSubState()
         {
-            if (!Ctx.Grounded)
-                return;
 
-            if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
-                SetSubState(Factory.AimShooting());
-            else if (Ctx.Input.IsAiming)
-                SetSubState(Factory.Aiming());
-            else if (Ctx.Input.IsShooting)
-                SetSubState(Factory.Shooting());
-            else if (Ctx.Input.IsReloading)
-                SetSubState(Factory.Reloading());
-            else if (Ctx.Input.IsBuilding)
-                SetSubState(Factory.Building());
         }
 
         public override void UpdateState()

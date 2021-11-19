@@ -81,6 +81,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b9e69df-317d-4398-a1df-c84aec91bb66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e5ef6a9-843d-4d7e-81a3-8038ee0ccd8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -303,6 +319,61 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b30f5755-4501-4cd4-9513-6c3d6dc1bb56"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ada2a00-014a-4708-bf34-f35ad77b63db"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f8b5254-46af-4a2a-8ce5-781382282ab3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3042645b-b53b-47bd-b932-3eca8c077082"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b1b3f88-9c08-43bb-8eed-74256a37c332"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -319,6 +390,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Combat_Jump = m_Combat.FindAction("Jump", throwIfNotFound: true);
         m_Combat_Build = m_Combat.FindAction("Build", throwIfNotFound: true);
         m_Combat_Reload = m_Combat.FindAction("Reload", throwIfNotFound: true);
+        m_Combat_Cancel = m_Combat.FindAction("Cancel", throwIfNotFound: true);
+        m_Combat_Menu = m_Combat.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -376,6 +449,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Combat_Jump;
     private readonly InputAction m_Combat_Build;
     private readonly InputAction m_Combat_Reload;
+    private readonly InputAction m_Combat_Cancel;
+    private readonly InputAction m_Combat_Menu;
     public struct CombatActions
     {
         private @PlayerControls m_Wrapper;
@@ -388,6 +463,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Combat_Jump;
         public InputAction @Build => m_Wrapper.m_Combat_Build;
         public InputAction @Reload => m_Wrapper.m_Combat_Reload;
+        public InputAction @Cancel => m_Wrapper.m_Combat_Cancel;
+        public InputAction @Menu => m_Wrapper.m_Combat_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -421,6 +498,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnReload;
+                @Cancel.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Menu.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -449,6 +532,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -463,5 +552,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

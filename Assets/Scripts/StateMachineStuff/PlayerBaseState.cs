@@ -60,10 +60,11 @@ namespace StateMachineStuff
             {
                 //sets the current super states sub state to newState
                 currentSuperState.SetSubState(newState);
+
+                //if(currentSuperState != null && currentSuperState.isRootState == true)
+                //    newState.isSubRootState = true;
             }
 
-            //if(currentSuperState != null && currentSuperState.isRootState == true)
-            //    newState.isSubRootState = true;
         }
 
         protected void SetSuperState(PlayerBaseState newSuperState)
@@ -75,10 +76,16 @@ namespace StateMachineStuff
         {
             //Ex. Grounded's substate would be newSubState
             currentSubState = newSubState;
+
             //newSubstate's super state would be grounded
             newSubState.SetSuperState(this);
+
+            //If this is a root state, the sub state should be a sub root state
+            //if (currentSuperState != null && currentSuperState.isRootState == true)
+            //    newSubState.isSubRootState = true;
+
             //NewSubState's enter state method
-            newSubState.EnterState();
+            //newSubState.EnterState();
         }
     }
 }

@@ -9,32 +9,47 @@ namespace StateMachineStuff
         public PlayerAimShootingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
         {
-    
+            InitializeSubState();
         }
 
         public override void CheckSwitchStates()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.IsSprinting)
+                SwitchState(Factory.Running());
+            else if (!Ctx.Input.IsAiming && Ctx.Input.IsShooting)
+                SwitchState(Factory.Shooting());
+            else if (Ctx.Input.IsAiming && !Ctx.Input.IsShooting)
+                SwitchState(Factory.Aiming());
+            else if(!Ctx.Input.IsAiming && !Ctx.Input.IsShooting)
+                SwitchState(CurrentSubState);
+            else if (Ctx.Input.IsReloading)
+                SwitchState(Factory.Reloading());
+            else if (Ctx.Input.IsBuilding)
+                SwitchState(Factory.Building());
         }
 
         public override void EnterState()
         {
-            throw new System.NotImplementedException();
+            Ctx.Speed = Ctx.AdsSpeed;
+            Ctx.AimCam.Priority += 10;
         }
 
         public override void ExitState()
         {
-            throw new System.NotImplementedException();
+            Ctx.AimCam.Priority -= 10;
         }
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            if (Ctx.Input.MovementVector == Vector2.zero)
+                SetSubState(Factory.Idle());
+            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+                SetSubState(Factory.Walking());
         }
 
         public override void UpdateState()
         {
-            throw new System.NotImplementedException();
+            CheckSwitchStates();
         }
     }
 }
