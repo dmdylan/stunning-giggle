@@ -51,8 +51,6 @@ namespace StateMachineStuff
         {
             ExitState();
 
-            newState.EnterState();
-
             if (isRootState)
                 //switches current state if it is declared a root state in it's constructor
                 ctx.CurrentState = newState;
@@ -60,11 +58,9 @@ namespace StateMachineStuff
             {
                 //sets the current super states sub state to newState
                 currentSuperState.SetSubState(newState);
-
-                //if(currentSuperState != null && currentSuperState.isRootState == true)
-                //    newState.isSubRootState = true;
             }
 
+            newState.EnterState();
         }
 
         protected void SetSuperState(PlayerBaseState newSuperState)

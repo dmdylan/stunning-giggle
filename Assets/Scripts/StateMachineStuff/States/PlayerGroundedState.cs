@@ -36,9 +36,7 @@ namespace StateMachineStuff
             if (Ctx.HasAnimator)
             {
                 Ctx.Animator.SetBool(Ctx.AnimIDGrounded, Ctx.Grounded);
-            }
-
-            
+            }          
         }
 
         //TODO: Add more substates if they need to be implemented after a jump

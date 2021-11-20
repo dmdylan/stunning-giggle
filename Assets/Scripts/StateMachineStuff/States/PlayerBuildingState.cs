@@ -49,7 +49,7 @@ namespace StateMachineStuff
         {
             if (Ctx.Input.MovementVector == Vector2.zero)
                 SetSubState(Factory.Idle());
-            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting || Ctx.Input.IsSprinting)
                 SetSubState(Factory.Walking());
         }
 

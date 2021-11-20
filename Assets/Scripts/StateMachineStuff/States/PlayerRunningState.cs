@@ -40,6 +40,7 @@ namespace StateMachineStuff
             }
         }
 
+        //TODO: Use CanRunAgain bool to check if player is able to run again after switching states
         public override void EnterState()
         {
             Ctx.TargetSpeed = Ctx.SprintSpeed;

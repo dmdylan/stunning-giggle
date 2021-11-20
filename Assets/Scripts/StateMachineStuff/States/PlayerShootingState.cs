@@ -14,7 +14,7 @@ namespace StateMachineStuff
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.Input.IsSprinting)
+            if (Ctx.Input.IsSprinting && !Ctx.Input.IsShooting)
                 SwitchState(Factory.Running());
             else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
                 SwitchState(Factory.AimShooting());
@@ -30,7 +30,8 @@ namespace StateMachineStuff
 
         public override void EnterState()
         {
-            Debug.Log("Entered shooting state");
+            if (CurrentSubState.GetType().Equals(typeof(PlayerWalkingState)))
+                Ctx.TargetSpeed = Ctx.WalkSpeed;
         }
 
         public override void ExitState()
@@ -42,7 +43,7 @@ namespace StateMachineStuff
         {
             if (Ctx.Input.MovementVector == Vector2.zero)
                 SetSubState(Factory.Idle());
-            else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
+            else// if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
                 SetSubState(Factory.Walking());
         }
 

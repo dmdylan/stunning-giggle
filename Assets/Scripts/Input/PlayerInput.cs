@@ -100,8 +100,8 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.AimDownSight.canceled += OnAim;
         playerControls.Combat.Jump.started += OnJump;
         playerControls.Combat.Jump.canceled += OnJump;
-        playerControls.Combat.Sprint.started += OnSprint;
-        playerControls.Combat.Sprint.canceled += OnSprint;
+        playerControls.Combat.Sprint.started += OnSprintStarted;
+        playerControls.Combat.Sprint.canceled += OnSprintCanceled;
         playerControls.Combat.Reload.started += OnReload;
         playerControls.Combat.Reload.canceled += OnReload;
         playerControls.Combat.Build.started += OnBuild;
@@ -120,8 +120,8 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.AimDownSight.canceled -= OnAim;
         playerControls.Combat.Jump.started -= OnJump;
         playerControls.Combat.Jump.canceled -= OnJump;
-        playerControls.Combat.Sprint.started -= OnSprint;
-        playerControls.Combat.Sprint.canceled -= OnSprint;
+        playerControls.Combat.Sprint.started -= OnSprintStarted;
+        playerControls.Combat.Sprint.canceled -= OnSprintCanceled;
         playerControls.Combat.Reload.started -= OnReload;
         playerControls.Combat.Reload.canceled -= OnReload;
         playerControls.Combat.Build.started -= OnBuild;
@@ -184,9 +184,14 @@ public class PlayerInput : MonoBehaviour
         isAiming = context.ReadValueAsButton();
     }
 
-    private void OnSprint(InputAction.CallbackContext context)
+    private void OnSprintStarted(InputAction.CallbackContext context)
     {
         isSprinting = context.ReadValueAsButton();
+    }
+
+    private void OnSprintCanceled(InputAction.CallbackContext context)
+    {
+        isSprinting = !isSprinting;
     }
 
     private void OnBuild(InputAction.CallbackContext context)

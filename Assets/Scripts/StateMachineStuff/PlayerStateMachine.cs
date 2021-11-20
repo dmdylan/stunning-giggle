@@ -105,6 +105,7 @@ namespace StateMachineStuff
 
 		private bool isBuilding;
 
+
 		#endregion
 
 		#region Getters and Setters
@@ -149,9 +150,9 @@ namespace StateMachineStuff
 		public bool HasAnimator => hasAnimator;
 		public bool IsBuilding { get { return isBuilding; }  set { isBuilding = value; } }
 
-        #endregion
+		#endregion
 
-        private void Awake()
+		private void Awake()
         {
 			// get a reference to our main camera
 			if (mainCamera == null)

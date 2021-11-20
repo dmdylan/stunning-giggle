@@ -18,7 +18,7 @@ namespace StateMachineStuff
             {
                 if (Ctx.Input.MovementVector == Vector2.zero)
                     SwitchState(Factory.Idle());
-                else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
+                else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting && !Ctx.Input.IsShooting && !Ctx.Input.IsAiming)
                     SwitchState(Factory.Running());
             }
             else
@@ -40,14 +40,29 @@ namespace StateMachineStuff
             }
         }
 
+        //TODO: Speed gets overridden depending on what state is called first
+        //walking -> aiming = aiming walk speed; aiming -> idle -> walking = normal walk speed;
+        //You don't re-enter walking state when changing to aiming/aimshooting state
         public override void EnterState()
         {
-            Ctx.TargetSpeed = Ctx.WalkSpeed;
+            if (CurrentSuperState.GetType().Equals(typeof(PlayerAimingState)) || CurrentSuperState.GetType().Equals(typeof(PlayerAimShootingState)))
+            {
+                Ctx.TargetSpeed = Ctx.AdsSpeed;
+            }
+            else
+            {
+                Ctx.TargetSpeed = Ctx.WalkSpeed; 
+            }
+
+            Debug.Log("Entered walking state");
         }
 
         public override void ExitState()
         {
-
+            if (CurrentSuperState.GetType().Equals(typeof(PlayerAimingState)) || CurrentSuperState.GetType().Equals(typeof(PlayerAimShootingState)))
+            {
+                Ctx.TargetSpeed = Ctx.AdsSpeed;
+            }
         }
 
         public override void InitializeSubState()
@@ -58,7 +73,6 @@ namespace StateMachineStuff
         public override void UpdateState()
         {
             CheckSwitchStates();
-            //InitializeSubState();
 
             float currentHorizontalSpeed = new Vector3(Ctx.Controller.velocity.x, 0.0f, Ctx.Controller.velocity.z).magnitude;
 

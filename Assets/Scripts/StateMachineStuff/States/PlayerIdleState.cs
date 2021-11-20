@@ -16,10 +16,10 @@ namespace StateMachineStuff
         {
             if (CurrentSuperState != Ctx.CurrentState)
             {
-                if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
-                    SwitchState(Factory.Walking());
-                else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
+                if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting && !Ctx.Input.IsShooting && !Ctx.Input.IsAiming)
                     SwitchState(Factory.Running());
+                else if (Ctx.Input.MovementVector != Vector2.zero)// && !Ctx.Input.IsSprinting)
+                    SwitchState(Factory.Walking());
             }
             else
             {
