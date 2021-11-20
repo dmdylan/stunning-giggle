@@ -40,12 +40,18 @@ public class PlayerInput : MonoBehaviour
     {
         playerControls.Combat.Enable();
         PlayerCombatInputEnable();
+        PlayerBuildInputEnable();
     }
 
     private void OnDisable()
     {
-        playerControls.Combat.Disable();
+        if (playerControls.Combat.enabled)
+            playerControls.Combat.Disable();
+        else if(playerControls.Building.enabled)
+            playerControls.Building.Disable();
+
         PlayerCombatInputDisable();
+        PlayerBuildInputDisable();
     }
 
     private void OnApplicationFocus(bool focus)
@@ -66,6 +72,22 @@ public class PlayerInput : MonoBehaviour
             movementVector = playerControls.Building.Movement.ReadValue<Vector2>();
             lookVector = playerControls.Building.Look.ReadValue<Vector2>();
         }
+    }
+
+    public void ToggleCombatActionMap()
+    {
+        if (playerControls.Combat.enabled)
+            playerControls.Combat.Disable();
+        else
+            playerControls.Combat.Enable();
+    }
+
+    public void ToggleBuildActionMap()
+    {
+        if (playerControls.Building.enabled)
+            playerControls.Building.Disable();
+        else
+            playerControls.Building.Enable();
     }
 
     #region Setup

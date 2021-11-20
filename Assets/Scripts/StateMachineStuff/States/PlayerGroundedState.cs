@@ -37,17 +37,21 @@ namespace StateMachineStuff
             {
                 Ctx.Animator.SetBool(Ctx.AnimIDGrounded, Ctx.Grounded);
             }
+
+            
         }
 
         //TODO: Add more substates if they need to be implemented after a jump
         public override void InitializeSubState()
         {
-            if (Ctx.Input.MovementVector == Vector2.zero)
+            if (Ctx.IsBuilding)
+                SetSubState(Factory.Building());
+            else if (Ctx.Input.IsShooting)
+                SetSubState(Factory.Shooting());
+            else if (Ctx.Input.MovementVector == Vector2.zero)
                 SetSubState(Factory.Idle());
             else if (Ctx.Input.MovementVector != Vector2.zero && !Ctx.Input.IsSprinting)
                 SetSubState(Factory.Walking());
-            else if (Ctx.Input.IsShooting)
-                SetSubState(Factory.Shooting());
             else
                 SetSubState(Factory.Running());
         }

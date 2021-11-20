@@ -103,6 +103,8 @@ namespace StateMachineStuff
 
 		private bool hasAnimator;
 
+		private bool isBuilding;
+
 		#endregion
 
 		#region Getters and Setters
@@ -145,6 +147,7 @@ namespace StateMachineStuff
 		public int AnimIDFreeFall => animIDFreeFall;
 		public int AnimIDMotionSpeed => animIDMotionSpeed;
 		public bool HasAnimator => hasAnimator;
+		public bool IsBuilding { get { return isBuilding; }  set { isBuilding = value; } }
 
         #endregion
 

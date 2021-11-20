@@ -7,7 +7,10 @@ namespace StateMachineStuff
     public class PlayerBuildingState : PlayerBaseState 
     {
         private bool exitInput = false;
-        private bool didBuild = false;
+        private bool isBuilding = false;
+        
+        //TODO: Used later to subtract resources of built object?
+        //private bool didBuild = false;
 
         public PlayerBuildingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory)
@@ -20,18 +23,26 @@ namespace StateMachineStuff
             if (exitInput == false)
                 return;
 
-            if(exitInput || didBuild)
+            if(exitInput)
                 SwitchState(CurrentSubState);
         }
 
         public override void EnterState()
         {
+            Ctx.IsBuilding = true;
+
+            Ctx.Input.ToggleCombatActionMap();
+            Ctx.Input.ToggleBuildActionMap();
+
             //Show build menu of item meant to be placed
         }
 
         public override void ExitState()
         {
-            
+            Ctx.IsBuilding = false;
+
+            Ctx.Input.ToggleBuildActionMap();
+            Ctx.Input.ToggleCombatActionMap();
         }
 
         public override void InitializeSubState()
@@ -44,7 +55,7 @@ namespace StateMachineStuff
 
         public override void UpdateState()
         {
-            if (Ctx.Input.DidCancel)
+            if (!isBuilding && Ctx.Input.DidCancel)
                 exitInput = true;
 
             CheckSwitchStates();
