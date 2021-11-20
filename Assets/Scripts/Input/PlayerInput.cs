@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     private bool isBuilding = false;
     private bool didMenu = false;
     private bool didCancel = false;
+    private bool didConfirm = false;
 
     public Vector2 MovementVector => movementVector;
     public Vector2 LookVector => lookVector;
@@ -28,6 +29,7 @@ public class PlayerInput : MonoBehaviour
     public bool IsBuilding => isBuilding;
     public bool DidMenu => didMenu;
     public bool DidCancel => didCancel;
+    public bool DidConfirm => didConfirm;
 
     private void Awake()
     {
@@ -58,6 +60,11 @@ public class PlayerInput : MonoBehaviour
         {
             movementVector = playerControls.Combat.Movement.ReadValue<Vector2>();
             lookVector = playerControls.Combat.Look.ReadValue<Vector2>();
+        }
+        else if (playerControls.Building.enabled)
+        {
+            movementVector = playerControls.Building.Movement.ReadValue<Vector2>();
+            lookVector = playerControls.Building.Look.ReadValue<Vector2>();
         }
     }
 
@@ -103,9 +110,47 @@ public class PlayerInput : MonoBehaviour
         playerControls.Combat.Menu.canceled -= OnMenu;
     }
 
+    private void PlayerBuildInputEnable()
+    {
+        playerControls.Building.Confirm.started += OnConfirm;
+        playerControls.Building.Confirm.canceled += OnConfirm;
+        playerControls.Building.Cancel.started += OnCancel;
+        playerControls.Building.Cancel.canceled += OnCancel;
+        playerControls.Building.Build.started += OnBuild;
+        playerControls.Building.Build.canceled += OnBuild;
+        playerControls.Building.Jump.started += OnJump;
+        playerControls.Building.Jump.canceled += OnJump;
+    }
+
+    private void PlayerBuildInputDisable()
+    {
+        playerControls.Building.Confirm.started -= OnConfirm;
+        playerControls.Building.Confirm.canceled -= OnConfirm;
+        playerControls.Building.Cancel.started -= OnCancel;
+        playerControls.Building.Cancel.canceled -= OnCancel;
+        playerControls.Building.Build.started -= OnBuild;
+        playerControls.Building.Build.canceled -= OnBuild;
+        playerControls.Building.Jump.started -= OnJump;
+        playerControls.Building.Jump.canceled -= OnJump;
+    }
+
     #endregion
 
-    #region Events
+    #region General Events
+
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        jumped = context.ReadValueAsButton();
+    }
+
+    private void OnMenu(InputAction.CallbackContext context)
+    {
+        didMenu = context.ReadValueAsButton();
+    }
+
+    #endregion
+
+    #region Combat Action Map Events
 
     private void OnShoot(InputAction.CallbackContext context)
     {
@@ -115,11 +160,6 @@ public class PlayerInput : MonoBehaviour
     private void OnAim(InputAction.CallbackContext context)
     {
         isAiming = context.ReadValueAsButton();
-    }
-
-    private void OnJump(InputAction.CallbackContext context)
-    {
-        jumped = context.ReadValueAsButton();
     }
 
     private void OnSprint(InputAction.CallbackContext context)
@@ -137,9 +177,13 @@ public class PlayerInput : MonoBehaviour
         isReloading = context.ReadValueAsButton();
     }
 
-    private void OnMenu(InputAction.CallbackContext context)
+    #endregion
+
+    #region Build Action Map Events
+
+    private void OnConfirm(InputAction.CallbackContext context)
     {
-        didMenu = context.ReadValueAsButton();
+        didConfirm = context.ReadValueAsButton();
     }
 
     private void OnCancel(InputAction.CallbackContext context)

@@ -376,6 +376,249 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Building"",
+            ""id"": ""dcaada00-c82b-4aa6-a853-a7b3deb36bb1"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""a48d04ef-9693-4cfd-969e-7ee7c8b2e97d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""NormalizeVector2"",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""1b0a1132-86ed-4219-bee3-236251a0b41a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dea8888-ae12-4fdd-a4a6-4376a32708dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""f06650c7-c89e-4d2f-acc0-d8e2ce5190a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""850e2416-9589-47ee-ad92-b41cb879a300"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""cba19047-3e53-47d9-b829-f16bc2b55773"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bda3324d-78e8-4d6e-b413-30ded4bb82c3"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=15,y=15)"",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e8d4c46-de35-4fdd-93b0-8e77b6d6432d"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone,ScaleVector2(x=300,y=300)"",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0707ddfd-1635-4660-9c01-977d803b304a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""927266ac-0c54-42c0-ac0a-5f66ff7bd32a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4842ea0-566b-4556-84fa-d0e46c2710e3"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d6bcd45-defa-420b-b1e2-a09650aec4f5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e58e09b-dd3a-44ff-8326-a2b25c21946c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4d8ccc5-3ea4-4d9d-8a3f-a22be79eef7c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""705b693d-d588-4296-b59d-62697ceefa42"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45855f5a-65b1-4dbf-894f-5c90ecb84f42"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c893447-87ac-4ef3-80df-81ad91a3f91f"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""79159afe-ba90-4f8a-a458-42f79b7c2a6c"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""04b3d86f-8a18-4866-a6af-778109503c22"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6e69541d-0c6e-4248-87be-ce649efb08fe"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4057e514-53ce-4c82-9dc7-b0a5b293bf87"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""75eed8e9-13b3-44b5-bbf5-8c0f240074f9"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a49b0f7b-566b-49d4-b792-4133920a6140"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -392,6 +635,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Combat_Reload = m_Combat.FindAction("Reload", throwIfNotFound: true);
         m_Combat_Cancel = m_Combat.FindAction("Cancel", throwIfNotFound: true);
         m_Combat_Menu = m_Combat.FindAction("Menu", throwIfNotFound: true);
+        // Building
+        m_Building = asset.FindActionMap("Building", throwIfNotFound: true);
+        m_Building_Movement = m_Building.FindAction("Movement", throwIfNotFound: true);
+        m_Building_Look = m_Building.FindAction("Look", throwIfNotFound: true);
+        m_Building_Confirm = m_Building.FindAction("Confirm", throwIfNotFound: true);
+        m_Building_Cancel = m_Building.FindAction("Cancel", throwIfNotFound: true);
+        m_Building_Build = m_Building.FindAction("Build", throwIfNotFound: true);
+        m_Building_Jump = m_Building.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -542,6 +793,79 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public CombatActions @Combat => new CombatActions(this);
+
+    // Building
+    private readonly InputActionMap m_Building;
+    private IBuildingActions m_BuildingActionsCallbackInterface;
+    private readonly InputAction m_Building_Movement;
+    private readonly InputAction m_Building_Look;
+    private readonly InputAction m_Building_Confirm;
+    private readonly InputAction m_Building_Cancel;
+    private readonly InputAction m_Building_Build;
+    private readonly InputAction m_Building_Jump;
+    public struct BuildingActions
+    {
+        private @PlayerControls m_Wrapper;
+        public BuildingActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Building_Movement;
+        public InputAction @Look => m_Wrapper.m_Building_Look;
+        public InputAction @Confirm => m_Wrapper.m_Building_Confirm;
+        public InputAction @Cancel => m_Wrapper.m_Building_Cancel;
+        public InputAction @Build => m_Wrapper.m_Building_Build;
+        public InputAction @Jump => m_Wrapper.m_Building_Jump;
+        public InputActionMap Get() { return m_Wrapper.m_Building; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BuildingActions set) { return set.Get(); }
+        public void SetCallbacks(IBuildingActions instance)
+        {
+            if (m_Wrapper.m_BuildingActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnMovement;
+                @Look.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnLook;
+                @Confirm.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnConfirm;
+                @Cancel.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnCancel;
+                @Build.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnBuild;
+                @Jump.started -= m_Wrapper.m_BuildingActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_BuildingActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_BuildingActionsCallbackInterface.OnJump;
+            }
+            m_Wrapper.m_BuildingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+            }
+        }
+    }
+    public BuildingActions @Building => new BuildingActions(this);
     public interface ICombatActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -554,5 +878,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
+    }
+    public interface IBuildingActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
