@@ -98,6 +98,9 @@ namespace StateMachineStuff
 		private int animIDJump;
 		private int animIDFreeFall;
 		private int animIDMotionSpeed;
+		private int animIDMoveX;
+		private int animIDMoveY;
+		private int animIDIsSprinting;
 
 		private const float threshold = 0.01f;
 
@@ -147,6 +150,9 @@ namespace StateMachineStuff
 		public int AnimIDJump => animIDJump;
 		public int AnimIDFreeFall => animIDFreeFall;
 		public int AnimIDMotionSpeed => animIDMotionSpeed;
+		public int AnimIDMoveX => animIDMoveX;
+		public int AnimIDMoveY => animIDMoveY;
+		public int AnimIDIsSprinting => animIDIsSprinting;
 		public bool HasAnimator => hasAnimator;
 		public bool IsBuilding { get { return isBuilding; }  set { isBuilding = value; } }
 
@@ -235,6 +241,8 @@ namespace StateMachineStuff
 			if (hasAnimator)
 			{
 				animator.SetFloat(animIDSpeed, animationBlend);
+				animator.SetFloat(animIDMoveX, input.MovementVector.x);
+				animator.SetFloat(animIDMoveY, input.MovementVector.y);
 				animator.SetFloat(animIDMotionSpeed, inputMagnitude);
 			}
 		}
@@ -246,6 +254,9 @@ namespace StateMachineStuff
 			animIDJump = Animator.StringToHash("Jump");
 			animIDFreeFall = Animator.StringToHash("FreeFall");
 			animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+			animIDMoveX = Animator.StringToHash("MoveX");
+			animIDMoveY = Animator.StringToHash("MoveY");
+			animIDIsSprinting = Animator.StringToHash("IsSprinting");
 		}
 
 		private void CameraRotation()

@@ -44,11 +44,12 @@ namespace StateMachineStuff
         public override void EnterState()
         {
             Ctx.TargetSpeed = Ctx.SprintSpeed;
+            Ctx.Animator.SetBool(Ctx.AnimIDIsSprinting, true);
         }
 
         public override void ExitState()
         {
-
+            Ctx.Animator.SetBool(Ctx.AnimIDIsSprinting, false);
         }
 
         public override void InitializeSubState()

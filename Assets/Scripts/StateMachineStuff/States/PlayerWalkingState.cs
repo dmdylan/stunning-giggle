@@ -51,7 +51,7 @@ namespace StateMachineStuff
             }
             else
             {
-                Ctx.TargetSpeed = Ctx.WalkSpeed; 
+                Ctx.TargetSpeed = Ctx.WalkSpeed;
             }
 
             Debug.Log("Entered walking state");

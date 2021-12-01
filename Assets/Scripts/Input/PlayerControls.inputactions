@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "50a26a1c-f977-45f5-83c1-dcd5dba3decc",
                     "expectedControlType": "Vector2",
-                    "processors": "NormalizeVector2",
+                    "processors": "",
                     "interactions": ""
                 },
                 {
@@ -373,7 +373,7 @@
                     "type": "Value",
                     "id": "a48d04ef-9693-4cfd-969e-7ee7c8b2e97d",
                     "expectedControlType": "Vector2",
-                    "processors": "NormalizeVector2",
+                    "processors": "",
                     "interactions": ""
                 },
                 {
