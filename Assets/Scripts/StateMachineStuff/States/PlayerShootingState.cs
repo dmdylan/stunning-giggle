@@ -51,7 +51,13 @@ namespace StateMachineStuff
         {
             CheckSwitchStates();
 
-            Debug.Log("Updating shoot state");
+            if (!Ctx.ShootController.CurrentWeapon.CanFire)
+                return;
+
+            if (Ctx.ShootController.CurrentWeapon.CurrentEnergy <= 0)
+                SwitchState(Factory.Reloading());
+
+            Ctx.ShootController.CurrentWeapon.Fire();
         }
     }
 }

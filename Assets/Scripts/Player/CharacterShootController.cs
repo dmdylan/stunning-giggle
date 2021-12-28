@@ -16,6 +16,7 @@ public class CharacterShootController : NetworkBehaviour
     [SerializeField] private Transform gemLocation;
 
     private BaseGem currentWeapon;
+    private PlayerInput input;
 
     [SyncVar(hook = nameof(OnChangeGem))]
     private EquippedGem equippedGem;
@@ -24,16 +25,10 @@ public class CharacterShootController : NetworkBehaviour
 
     public BaseGem CurrentWeapon => currentWeapon;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnStartLocalPlayer()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.OnStartLocalPlayer();
+        input = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()

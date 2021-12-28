@@ -7,6 +7,8 @@ public class GemStats : ScriptableObject
 {
     [Header("Damage Properties")]
     [SerializeField] private float baseDamage;
+    [SerializeField] private float rateOfFire;
+    [SerializeField] private bool isAutomatic;
     [SerializeField] private float effectiveRange;
     [SerializeField] private float maxRange;
     [SerializeField] private AnimationCurve dropOffDamageCurve;
@@ -17,18 +19,14 @@ public class GemStats : ScriptableObject
     [SerializeField] private int rechargeCost;
     [SerializeField] private float rechargeTime;
 
-    [Header("Cosmetic Properties")]
-    [SerializeField] private Color gemColor;
-    [SerializeField] private Material gemMaterial;
-
     public float BaseDamage => baseDamage;
+    public float RateOfFire => rateOfFire;
+    public bool IsAutomatic => isAutomatic;
     public float EffectRange => effectiveRange;
     public float MaxRange => maxRange;
     public AnimationCurve DropOffDamageCurve => dropOffDamageCurve;
     public int MaxEnergy => maxEnergy;
     public int EnergyCostPerShot => eneryCostPerShot;
     public int RechargeCost => rechargeCost;
-    public float RechargeTime => rechargeTime; 
-    public Color GemColor => gemColor;
-    public Material GemMaterial => gemMaterial;
+    public float RechargeTime => rechargeTime;
 }

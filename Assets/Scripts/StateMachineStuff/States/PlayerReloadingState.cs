@@ -35,7 +35,7 @@ namespace StateMachineStuff
 
         public override void EnterState()
         {
-            reloading = Reloading(1f, reloadCanceled);
+            reloading = Reloading(Ctx.ShootController.CurrentWeapon.GemStats.RechargeTime, reloadCanceled);
         }
 
         public override void ExitState()
@@ -66,6 +66,7 @@ namespace StateMachineStuff
         {
             await Task.Delay(TimeSpan.FromSeconds(reloadTime), token);
             isDoneReloading = true;
+            Ctx.ShootController.CurrentWeapon.SetCurrentEneryToMaxEnergy();
             reloading.Dispose();
         }
     }
