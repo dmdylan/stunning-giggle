@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
+using Mirror;
 
 namespace StateMachineStuff
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerStateMachine : MonoBehaviour
+	[RequireComponent(typeof(CharacterShootController))]
+    public class PlayerStateMachine : NetworkBehaviour
     {
         PlayerBaseState currentState;
         PlayerStateFactory states;
         PlayerInput input;
+		CharacterShootController shootController;
 		Animator animator;
 		CharacterController controller;
 		GameObject mainCamera;
@@ -115,6 +118,7 @@ namespace StateMachineStuff
 
 		public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
         public PlayerInput Input => input;
+		public CharacterShootController ShootController => shootController;
 		public Animator Animator => animator;
 		public CharacterController Controller => controller;
 		public GameObject MainCamera => mainCamera;
@@ -169,6 +173,7 @@ namespace StateMachineStuff
 			hasAnimator = TryGetComponent(out animator);
 			controller = GetComponent<CharacterController>();
 			input = GetComponent<PlayerInput>();
+			shootController = GetComponent<CharacterShootController>();
 
 			AssignAnimationIDs();
 

@@ -15,6 +15,7 @@ public class GemStats : ScriptableObject
     [SerializeField] private int maxEnergy;
     [SerializeField] private int eneryCostPerShot;
     [SerializeField] private int rechargeCost;
+    [SerializeField] private float rechargeTime;
 
     [Header("Cosmetic Properties")]
     [SerializeField] private Color gemColor;
@@ -27,6 +28,7 @@ public class GemStats : ScriptableObject
     public int MaxEnergy => maxEnergy;
     public int EnergyCostPerShot => eneryCostPerShot;
     public int RechargeCost => rechargeCost;
+    public float RechargeTime => rechargeTime; 
     public Color GemColor => gemColor;
     public Material GemMaterial => gemMaterial;
 }

@@ -1383,6 +1383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43940b28ea85b8e4abb34bec5810d00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   stateDebugText: {fileID: 285554774}
   walkSpeed: 2
   sprintSpeed: 5.335
@@ -1413,6 +1415,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_PrefabInstance: {fileID: 751050124}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &751050129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751050126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd13968e53908e942beec21718bd24f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  baseGemPrefab: {fileID: 0}
+  gemLocation: {fileID: 0}
 --- !u!1 &897422272
 GameObject:
   m_ObjectHideFlags: 0
