@@ -8,13 +8,13 @@ using Mirror;
 namespace StateMachineStuff
 {
     [RequireComponent(typeof(PlayerInput))]
-	[RequireComponent(typeof(CharacterShootController))]
+	[RequireComponent(typeof(PlayerGemController))]
     public class PlayerStateMachine : NetworkBehaviour
     {
         PlayerBaseState currentState;
         PlayerStateFactory states;
         PlayerInput input;
-		CharacterShootController shootController;
+		PlayerGemController gemController;
 		Animator animator;
 		CharacterController controller;
 		GameObject mainCamera;
@@ -118,7 +118,7 @@ namespace StateMachineStuff
 
 		public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
         public PlayerInput Input => input;
-		public CharacterShootController ShootController => shootController;
+		public PlayerGemController GemController => gemController;
 		public Animator Animator => animator;
 		public CharacterController Controller => controller;
 		public GameObject MainCamera => mainCamera;
@@ -173,7 +173,7 @@ namespace StateMachineStuff
 			hasAnimator = TryGetComponent(out animator);
 			controller = GetComponent<CharacterController>();
 			input = GetComponent<PlayerInput>();
-			shootController = GetComponent<CharacterShootController>();
+			gemController = GetComponent<PlayerGemController>();
 
 			AssignAnimationIDs();
 
@@ -196,6 +196,7 @@ namespace StateMachineStuff
         {
             currentState.UpdateStates();
 
+			Debug.Log(gemController.CurrentWeapon.CurrentEnergy);
 			//TODO: Move to all root states?
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 			if (verticalVelocity < terminalVelocity)
@@ -205,6 +206,8 @@ namespace StateMachineStuff
 
 			GroundCheck();
 			MovePlayer();
+
+			Debug.Log(currentState.CurrentSubState.CurrentSuperState);
 
 			if (currentState != null && currentState.CurrentSubState == null)
 				stateDebugText.text = "Current State: " + currentState.GetType().Name;

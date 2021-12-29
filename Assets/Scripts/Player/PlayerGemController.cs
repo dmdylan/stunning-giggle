@@ -10,7 +10,7 @@ public enum EquippedGem : byte
     otherGem
 }
 
-public class CharacterShootController : NetworkBehaviour
+public class PlayerGemController : NetworkBehaviour
 {
     [SerializeField] private GameObject baseGemPrefab;
     [SerializeField] private Transform gemLocation;
@@ -25,10 +25,17 @@ public class CharacterShootController : NetworkBehaviour
 
     public BaseGem CurrentWeapon => currentWeapon;
 
+    private void Start()
+    {
+        input = GetComponent<PlayerInput>();
+        currentWeapon = baseGemPrefab.GetComponent<BaseGem>();
+    }
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
         input = GetComponent<PlayerInput>();
+        currentWeapon = baseGemPrefab.GetComponent<BaseGem>();
     }
 
     private void OnEnable()

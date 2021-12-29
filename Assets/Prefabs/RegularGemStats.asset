@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RegularGemStats
   m_EditorClassIdentifier: 
   baseDamage: 0
-  rateOfFire: 0
+  rateOfFire: 0.2
   isAutomatic: 1
   effectiveRange: 0
   maxRange: 0
@@ -23,9 +23,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxEnergy: 0
-  eneryCostPerShot: 0
+  maxEnergy: 10
+  eneryCostPerShot: 1
   rechargeCost: 0
-  rechargeTime: 0
-  gemColor: {r: 0.43164828, g: 0.9433962, b: 0.8680382, a: 0}
-  gemMaterial: {fileID: 0}
+  rechargeTime: 5

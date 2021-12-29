@@ -7,6 +7,7 @@ public class RegularGem : BaseGem
     public override IEnumerator Fire()
     {
         canFire = false;
+
         ReduceCurrentEnergy(gemStats.EnergyCostPerShot);
         Debug.Log("Fired!");
 

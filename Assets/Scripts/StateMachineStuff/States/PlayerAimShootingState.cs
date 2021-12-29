@@ -50,6 +50,15 @@ namespace StateMachineStuff
         public override void UpdateState()
         {
             CheckSwitchStates();
+
+
+            if (Ctx.GemController.CurrentWeapon.CurrentEnergy <= 0)
+                SwitchState(Factory.Reloading());
+
+            if (!Ctx.GemController.CurrentWeapon.CanFire)
+                return;
+
+            Ctx.StartCoroutine(Ctx.GemController.CurrentWeapon.Fire());
         }
     }
 }

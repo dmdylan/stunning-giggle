@@ -27,14 +27,14 @@ namespace StateMachineStuff
                     SwitchState(Factory.Walking());
                 else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
                     SwitchState(Factory.Running());
+                else if (Ctx.Input.IsReloading || (Ctx.Input.IsShooting && Ctx.GemController.CurrentWeapon.CurrentEnergy == 0))
+                    SwitchState(Factory.Reloading());
                 else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
                     SwitchState(Factory.AimShooting());
                 else if (Ctx.Input.IsAiming)
                     SwitchState(Factory.Aiming());
-                else if (Ctx.Input.IsShooting)
+                else if (!CurrentSuperState.Equals(typeof(PlayerReloadingState)) && Ctx.Input.IsShooting)
                     SwitchState(Factory.Shooting());
-                else if (Ctx.Input.IsReloading)
-                    SwitchState(Factory.Reloading());
                 else if (Ctx.Input.IsBuilding)
                     SwitchState(Factory.Building());
             }
@@ -59,9 +59,6 @@ namespace StateMachineStuff
         public override void UpdateState()
         {
             CheckSwitchStates();
-            Debug.Log("Updating idle state");
-
-            Debug.Log("Current super state:" + CurrentSuperState);
         }
     }
 }

@@ -655,6 +655,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &616399136 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2402025197494152727, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 751050124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &751050124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -662,6 +667,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -878571327254836562, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: gemLocation
+      value: 
+      objectReference: {fileID: 616399136}
+    - target: {fileID: -878571327254836562, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: baseGemPrefab
+      value: 
+      objectReference: {fileID: 1400921595}
+    - target: {fileID: 751050126, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 751050127, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: aimCam
       value: 
@@ -722,11 +739,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArmature
       objectReference: {fileID: 0}
+    - target: {fileID: 5067924427518040724, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5230338622098189603, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: sceneId
       value: 2153595109
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 751050129, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!1 &897422272
 GameObject:
@@ -1175,6 +1197,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &1400921595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7244057020419484978, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 751050124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1426948982
 GameObject:
   m_ObjectHideFlags: 0

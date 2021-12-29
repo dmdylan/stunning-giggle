@@ -42,12 +42,16 @@ public abstract class BaseGem : MonoBehaviour
     public void SetCurrentEneryToMaxEnergy()
     {
         currentEnergy = gemStats.MaxEnergy;
+        canFire = true;
     }
 
     protected void ReduceCurrentEnergy(int energyCost)
     {
         if (currentEnergy - energyCost < 0)
+        {
             currentEnergy = 0;
+            canFire = false;
+        }
         else
             currentEnergy -= energyCost;
     }
