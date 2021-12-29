@@ -1,9 +1,8 @@
-using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseGem : NetworkBehaviour
+public abstract class BaseGem : MonoBehaviour
 {
     [SerializeField] protected GemStats gemStats;
     [SerializeField] protected Transform firePoint;
@@ -15,9 +14,8 @@ public abstract class BaseGem : NetworkBehaviour
     public bool CanFire => canFire;
     public int CurrentEnergy => currentEnergy;
 
-    public override void OnStartLocalPlayer()
+    private void Start()
     {
-        base.OnStartLocalPlayer();
         currentEnergy = gemStats.MaxEnergy;
     }
 
