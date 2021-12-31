@@ -11,6 +11,10 @@ public class RegularGem : BaseGem
         ReduceCurrentEnergy(gemStats.EnergyCostPerShot);
         Debug.Log("Fired!");
 
+        var projectilePrefab = Instantiate(gemStats.ProjectilePrefab, firePoint);
+        
+        yield return projectilePrefab;
+
         yield return new WaitForSeconds(gemStats.RateOfFire);
 
         canFire = true;

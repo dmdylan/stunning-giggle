@@ -19,6 +19,9 @@ public class GemStats : ScriptableObject
     [SerializeField] private int rechargeCost;
     [SerializeField] private float rechargeTime;
 
+    [Header("Other")]
+    [SerializeField] private GameObject projectilePrefab;
+
     public float BaseDamage => baseDamage;
     public float RateOfFire => rateOfFire;
     public bool IsAutomatic => isAutomatic;
@@ -29,4 +32,5 @@ public class GemStats : ScriptableObject
     public int EnergyCostPerShot => eneryCostPerShot;
     public int RechargeCost => rechargeCost;
     public float RechargeTime => rechargeTime;
+    public GameObject ProjectilePrefab => projectilePrefab;
 }

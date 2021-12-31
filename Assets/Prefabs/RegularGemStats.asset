@@ -27,3 +27,4 @@ MonoBehaviour:
   eneryCostPerShot: 1
   rechargeCost: 0
   rechargeTime: 5
+  projectilePrefab: {fileID: 299015833617233155, guid: eda2a2f604c577244b700118c44b9526, type: 3}
