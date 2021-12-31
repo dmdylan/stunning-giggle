@@ -58,8 +58,8 @@ namespace StateMachineStuff
 
             if (!Ctx.GemController.CurrentWeapon.CanFire)
                 return;
-            GameObject gameObject = Ctx.GemController.CurrentWeapon.Fire();
-            Ctx.StartCoroutine(Ctx.GemController.CurrentWeapon.Fire());
+
+            Ctx.SpawnProjectile(Ctx.GemController.CurrentWeapon.FireProjectile());
         }
     }
 }

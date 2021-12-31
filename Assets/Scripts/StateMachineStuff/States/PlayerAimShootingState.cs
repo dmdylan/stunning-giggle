@@ -58,7 +58,7 @@ namespace StateMachineStuff
             if (!Ctx.GemController.CurrentWeapon.CanFire)
                 return;
 
-            Ctx.StartCoroutine(Ctx.GemController.CurrentWeapon.Fire());
+            //Ctx.StartCoroutine(Ctx.GemController.CurrentWeapon.FireProjectile());
         }
     }
 }

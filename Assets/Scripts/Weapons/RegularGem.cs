@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RegularGem : BaseGem
 {
-    public override IEnumerator Fire()
+    public override GameObject FireProjectile()
     {
         canFire = false;
 
@@ -12,11 +12,14 @@ public class RegularGem : BaseGem
         Debug.Log("Fired!");
 
         var projectilePrefab = Instantiate(gemStats.ProjectilePrefab, firePoint);
-        
-        yield return projectilePrefab;
 
-        yield return new WaitForSeconds(gemStats.RateOfFire);
+        StartCoroutine(TimeBetweenShots());
 
-        canFire = true;
+        return projectilePrefab;
+    }
+
+    public override Vector3 FireRayCast()
+    {
+        throw new System.NotImplementedException();
     }
 }

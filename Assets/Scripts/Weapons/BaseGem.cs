@@ -19,7 +19,9 @@ public abstract class BaseGem : MonoBehaviour
         currentEnergy = gemStats.MaxEnergy;
     }
 
-    public abstract IEnumerator Fire();
+    public abstract GameObject FireProjectile();
+
+    public abstract Vector3 FireRayCast();
 
     ////TODO: Is this necessary if there is a reloading/recharing state?
     //public virtual IEnumerator RechargeGem()
@@ -54,5 +56,11 @@ public abstract class BaseGem : MonoBehaviour
         }
         else
             currentEnergy -= energyCost;
+    }
+
+    protected IEnumerator TimeBetweenShots()
+    {
+        yield return new WaitForSeconds(gemStats.RateOfFire);
+        canFire = true;
     }
 }

@@ -290,5 +290,16 @@ namespace StateMachineStuff
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
+
+		public void SpawnProjectile(GameObject objectToSpawn)
+        {
+			CmdSpawnProjectile(objectToSpawn);
+        }
+
+		[Command]
+		private void CmdSpawnProjectile(GameObject objectToSpawn)
+        {
+			NetworkServer.Spawn(objectToSpawn);
+        }
 	}
 }
