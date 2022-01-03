@@ -44,9 +44,9 @@ namespace StateMachineStuff
         {
             if (Ctx.IsBuilding)
                 SetSubState(Factory.Building());
-            else if (Ctx.Input.IsReloading || Ctx.GemController.CurrentWeapon != null && Ctx.GemController.CurrentWeapon.CurrentEnergy <= 0)
+            else if (Ctx.Input.IsReloading || Ctx.GemController.CurrentWeapon != null && Ctx.GemController.CurrentEnergy <= 0)
                 SetSubState(Factory.Reloading());
-            else if (Ctx.Input.IsShooting && Ctx.GemController.CurrentWeapon.CanFire)
+            else if (Ctx.Input.IsShooting && Ctx.GemController.CanFire)
                 SetSubState(Factory.Shooting());
             else if (Ctx.Input.MovementVector == Vector2.zero)
                 SetSubState(Factory.Idle());

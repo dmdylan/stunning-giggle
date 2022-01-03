@@ -36,9 +36,9 @@ namespace StateMachineStuff
 
         public override void EnterState()
         {
-            reloading = Reloading(Ctx.GemController.CurrentWeapon.GemStats.RechargeTime, reloadCanceled);
-            if (Ctx.Input.IsShooting)
-                stillPressingFire = true;
+            //reloading = Reloading(Ctx.GemController.CurrentWeapon.GemStats.RechargeTime, reloadCanceled);
+            //if (Ctx.Input.IsShooting)
+            //    stillPressingFire = true;
         }
 
         public override void ExitState()
@@ -56,11 +56,11 @@ namespace StateMachineStuff
 
         public override void UpdateState()
         {
-            if(Ctx.Input.DidCancel || (Ctx.Input.IsShooting && stillPressingFire == false))
-            {
-                canceledReload = true;
-                cancellationTokenSource.Cancel();
-            }
+            //if(Ctx.Input.DidCancel || (Ctx.Input.IsShooting && stillPressingFire == false))
+            //{
+            //    canceledReload = true;
+            //    cancellationTokenSource.Cancel();
+            //}
 
             CheckSwitchStates();
         }
@@ -69,7 +69,7 @@ namespace StateMachineStuff
         {
             await Task.Delay(TimeSpan.FromSeconds(reloadTime), token);
             isDoneReloading = true;
-            Ctx.GemController.CurrentWeapon.SetCurrentEneryToMaxEnergy();
+            //Ctx.GemController.CurrentWeapon.SetCurrentEneryToMaxEnergy();
             reloading.Dispose();
         }
     }

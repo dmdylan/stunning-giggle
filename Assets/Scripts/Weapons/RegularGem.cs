@@ -6,17 +6,20 @@ public class RegularGem : BaseGem
 {
     public override IEnumerator Shoot()
     {
-        canFire = false;
-
-        ReduceCurrentEnergy(gemStats.EnergyCostPerShot);
-        Debug.Log("Fired");
+        gemController.CanFire = false;
 
         var gemProjectile = Instantiate(gemStats.ProjectilePrefab, firePoint.position, firePoint.rotation);
 
         gemController.SpawnProjectile(gemProjectile);
 
+        gemController.ReduceCurrentEnergy(gemStats.EnergyCostPerShot);
+        Debug.Log("Fired");
+        
+        if (gemController.IsRecharging)    
+            yield break;
+
         yield return new WaitForSeconds(gemStats.RateOfFire);
 
-        canFire = true;
+        gemController.CanFire = true;
     }
 }

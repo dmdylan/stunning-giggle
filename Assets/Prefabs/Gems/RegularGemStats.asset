@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RegularGemStats
   m_EditorClassIdentifier: 
   baseDamage: 0
-  rateOfFire: 1
+  rateOfFire: 0.5
   isAutomatic: 1
   effectiveRange: 0
   maxRange: 0

@@ -19,6 +19,8 @@ namespace StateMachineStuff
 		CharacterController controller;
 		GameObject mainCamera;
 
+		[SerializeField] private GameObject followCamPrefab;
+		[SerializeField] private GameObject aimCamPrefab;
 		[SerializeField] private TextMeshProUGUI stateDebugText;
 
 		#region Private Variables
@@ -62,9 +64,9 @@ namespace StateMachineStuff
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
 		[SerializeField] private GameObject cinemachineCameraTarget;
 		[Tooltip("The virtual camera that will be used normally")]
-		[SerializeField] private CinemachineVirtualCamera mainFollowCam;
+		private CinemachineVirtualCamera mainFollowCam;
 		[Tooltip("The virtual camera that will be used for aiming down sights")]
-		[SerializeField] private CinemachineVirtualCamera aimCam;
+		private CinemachineVirtualCamera aimCam;
 		[Tooltip("How far in degrees can you move the camera up")]
 		[SerializeField] private float topClamp = 70.0f;
 		[Tooltip("How far in degrees can you move the camera down")]
@@ -187,6 +189,7 @@ namespace StateMachineStuff
         // Start is called before the first frame update
         void Start()
         {
+			VirtualCameraSetup();
 			jumpTimeoutDelta = JumpTimeout;
 			fallTimeoutDelta = FallTimeout;
 		}
@@ -222,6 +225,18 @@ namespace StateMachineStuff
         private void LateUpdate()
         {
 			CameraRotation();
+        }
+
+		private void VirtualCameraSetup()
+        {
+			var followCamera = Instantiate(followCamPrefab);
+			var aimCamera = Instantiate(aimCamPrefab);
+
+			mainFollowCam = followCamera.GetComponent<CinemachineVirtualCamera>();
+			aimCam = aimCamera.GetComponent<CinemachineVirtualCamera>();
+
+			mainFollowCam.Follow = cinemachineCameraTarget.transform;
+			aimCam.Follow = cinemachineCameraTarget.transform;
         }
 
 		private void GroundCheck()

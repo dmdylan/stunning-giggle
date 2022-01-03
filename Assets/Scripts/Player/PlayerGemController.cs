@@ -17,16 +17,23 @@ public class PlayerGemController : NetworkBehaviour
 
     private BaseGem currentWeapon;
     private PlayerInput input;
-
     private GameObject gemProjectile;
     private Transform firePoint;
+    private GemStats gemStats;
 
+    private int currentEnergy;
+    private bool canFire;
+    private bool isRecharging;
+    
     [SyncVar(hook = nameof(OnChangeGem))]
     private EquippedGem equippedGem;
 
     public event Action<EquippedGem> ChangeCurrentGem;
 
     public BaseGem CurrentWeapon => currentWeapon;
+    public int CurrentEnergy => currentEnergy;
+    public bool IsRecharging => isRecharging;
+    public bool CanFire {get {return canFire;} set { canFire = value; } }
 
     private void Start()
     {
@@ -38,11 +45,14 @@ public class PlayerGemController : NetworkBehaviour
 
         if(currentWeapon != null)
         {
+            gemStats = currentWeapon.GemStats;
+            currentEnergy = gemStats.MaxEnergy;
             firePoint = currentWeapon.FirePoint;
             currentWeapon.GemController = this;
+            canFire = true;
 
-            if(currentWeapon.GemStats.ProjectilePrefab != null)
-                gemProjectile = currentWeapon.GemStats.ProjectilePrefab;
+            if(gemStats.ProjectilePrefab != null)
+                gemProjectile = gemStats.ProjectilePrefab;
         }
     }
 
@@ -51,13 +61,12 @@ public class PlayerGemController : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        Debug.Log("Can fire: " + currentWeapon.CanFire);
+        Debug.Log("Can fire: " + canFire);
+        Debug.Log("Current energy:" + currentEnergy);
 
-        if (input.IsShooting && currentWeapon.CanFire)
+        if (canFire && input.IsShooting)
         {
             StartCoroutine(currentWeapon.Shoot());
-            //if (currentWeapon.GemStats.ShootingType == ShootingType.Projectile)
-            //    SpawnProjectile();
         }
         
     }
@@ -77,6 +86,42 @@ public class PlayerGemController : NetworkBehaviour
     private void OnDisable()
     {
         ChangeCurrentGem -= OnChangeCurrentGem;
+    }
+
+    ////TODO: Is this necessary if there is a reloading/recharing state?
+    public virtual IEnumerator RechargeGem()
+    {
+        isRecharging = true;
+        yield return new WaitForSeconds(gemStats.RechargeTime);
+        isRecharging = false;
+        SetCurrentEneryToMaxEnergy();
+    }
+
+    private void CancelRecharge()
+    {
+        if (isRecharging)
+        {
+            StopCoroutine(RechargeGem());
+            isRecharging = false;
+        }
+    }
+
+    private void SetCurrentEneryToMaxEnergy()
+    {
+        currentEnergy = gemStats.MaxEnergy;
+        canFire = true;
+    }
+
+    public void ReduceCurrentEnergy(int energyCost)
+    {
+        if (currentEnergy - energyCost <= 0)
+        {
+            currentEnergy = 0;
+            canFire = false;
+            StartCoroutine(RechargeGem());
+        }
+        else
+            currentEnergy -= energyCost;
     }
 
     private void OnChangeCurrentGem(EquippedGem newGem)

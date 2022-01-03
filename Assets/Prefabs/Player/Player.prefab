@@ -520,6 +520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  followCamPrefab: {fileID: 3507920063451800395, guid: 5b875b7f9cc79994ab2aff79331dd0a5, type: 3}
+  aimCamPrefab: {fileID: 3408388141975596713, guid: 18375d7f6808eb34283c0e3db16d5d8c, type: 3}
   stateDebugText: {fileID: 0}
   walkSpeed: 2
   sprintSpeed: 5.335
@@ -537,8 +539,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   cinemachineCameraTarget: {fileID: 6493593535206188203}
-  mainFollowCam: {fileID: 0}
-  aimCam: {fileID: 0}
   topClamp: 70
   bottomClamp: -30
   cameraAngleOverride: 0

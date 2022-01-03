@@ -34,6 +34,8 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         playerControls = new PlayerControls();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnEnable()
@@ -54,11 +56,11 @@ public class PlayerInput : MonoBehaviour
         PlayerBuildInputDisable();
     }
 
-    private void OnApplicationFocus(bool focus)
-    {
-        Cursor.lockState = focus ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = focus;
-    }
+    //private void OnApplicationFocus(bool focus)
+    //{
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //    Cursor.visible = false;
+    //}
 
     private void Update()
     {

@@ -27,7 +27,7 @@ namespace StateMachineStuff
                     SwitchState(Factory.Idle());
                 else if (Ctx.Input.MovementVector != Vector2.zero && Ctx.Input.IsSprinting)
                     SwitchState(Factory.Running());
-                else if (Ctx.Input.IsReloading || (Ctx.Input.IsShooting && Ctx.GemController.CurrentWeapon.CurrentEnergy == 0))
+                else if (Ctx.Input.IsReloading || (Ctx.Input.IsShooting && Ctx.GemController.CurrentEnergy == 0))
                     SwitchState(Factory.Reloading());
                 else if (Ctx.Input.IsAiming && Ctx.Input.IsShooting)
                     SwitchState(Factory.AimShooting());
