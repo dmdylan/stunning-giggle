@@ -8,20 +8,22 @@ public abstract class BaseGem : MonoBehaviour
     [SerializeField] protected Transform firePoint;
     protected int currentEnergy;
     protected bool canFire = true;
+    protected PlayerGemController gemController;
+    protected PlayerInput input;
     private bool isRecharging = false;
 
     public GemStats GemStats => gemStats;
     public bool CanFire => canFire;
     public int CurrentEnergy => currentEnergy;
+    public Transform FirePoint => firePoint;
+    public PlayerGemController GemController { get { return gemController; } set { gemController = value; } }
 
     private void Start()
     {
         currentEnergy = gemStats.MaxEnergy;
     }
 
-    public abstract GameObject FireProjectile();
-
-    public abstract Vector3 FireRayCast();
+    public abstract IEnumerator Shoot();
 
     ////TODO: Is this necessary if there is a reloading/recharing state?
     //public virtual IEnumerator RechargeGem()
@@ -56,11 +58,5 @@ public abstract class BaseGem : MonoBehaviour
         }
         else
             currentEnergy -= energyCost;
-    }
-
-    protected IEnumerator TimeBetweenShots()
-    {
-        yield return new WaitForSeconds(gemStats.RateOfFire);
-        canFire = true;
-    }
+    } 
 }

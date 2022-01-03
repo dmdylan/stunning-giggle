@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class RegularGem : BaseGem
 {
-    public override GameObject FireProjectile()
+    public override IEnumerator Shoot()
     {
         canFire = false;
 
         ReduceCurrentEnergy(gemStats.EnergyCostPerShot);
-        Debug.Log("Fired!");
+        Debug.Log("Fired");
 
-        var projectilePrefab = Instantiate(gemStats.ProjectilePrefab, firePoint);
+        var gemProjectile = Instantiate(gemStats.ProjectilePrefab, firePoint.position, firePoint.rotation);
 
-        StartCoroutine(TimeBetweenShots());
+        gemController.SpawnProjectile(gemProjectile);
 
-        return projectilePrefab;
-    }
+        yield return new WaitForSeconds(gemStats.RateOfFire);
 
-    public override Vector3 FireRayCast()
-    {
-        throw new System.NotImplementedException();
+        canFire = true;
     }
 }

@@ -18,6 +18,9 @@ public class PlayerGemController : NetworkBehaviour
     private BaseGem currentWeapon;
     private PlayerInput input;
 
+    private GameObject gemProjectile;
+    private Transform firePoint;
+
     [SyncVar(hook = nameof(OnChangeGem))]
     private EquippedGem equippedGem;
 
@@ -28,15 +31,43 @@ public class PlayerGemController : NetworkBehaviour
     private void Start()
     {
         input = GetComponent<PlayerInput>();
-        currentWeapon = baseGemPrefab.GetComponent<BaseGem>();
+
+        var gem = Instantiate(baseGemPrefab, gemLocation);
+
+        currentWeapon = gem.GetComponent<BaseGem>();
+
+        if(currentWeapon != null)
+        {
+            firePoint = currentWeapon.FirePoint;
+            currentWeapon.GemController = this;
+
+            if(currentWeapon.GemStats.ProjectilePrefab != null)
+                gemProjectile = currentWeapon.GemStats.ProjectilePrefab;
+        }
     }
 
-    public override void OnStartLocalPlayer()
+    private void Update()
     {
-        base.OnStartLocalPlayer();
-        input = GetComponent<PlayerInput>();
-        currentWeapon = baseGemPrefab.GetComponent<BaseGem>();
+        if (!isLocalPlayer)
+            return;
+
+        Debug.Log("Can fire: " + currentWeapon.CanFire);
+
+        if (input.IsShooting && currentWeapon.CanFire)
+        {
+            StartCoroutine(currentWeapon.Shoot());
+            //if (currentWeapon.GemStats.ShootingType == ShootingType.Projectile)
+            //    SpawnProjectile();
+        }
+        
     }
+
+    //public override void OnStartLocalPlayer()
+    //{
+    //    base.OnStartLocalPlayer();
+    //    input = GetComponent<PlayerInput>();
+    //    currentWeapon = baseGemPrefab.GetComponent<BaseGem>();
+    //}
 
     private void OnEnable()
     {
@@ -81,9 +112,23 @@ public class PlayerGemController : NetworkBehaviour
         ChangeCurrentGem?.Invoke(newGem);
     }
 
+    public void SpawnProjectile(GameObject projectile)
+    {
+        //var projectilePrefab = Instantiate(gemProjectile, firePoint.position, firePoint.rotation);
+
+        if(!isServer)
+            CmdSpawnProjectile(projectile);
+    }
+
     [Command]
     private void CmdChangeEquippedGem(EquippedGem newGem)
     {
         equippedGem = newGem;
+    }
+
+    [Command]
+    private void CmdSpawnProjectile(GameObject shootProjectile)
+    {
+        NetworkServer.Spawn(shootProjectile);
     }
 }

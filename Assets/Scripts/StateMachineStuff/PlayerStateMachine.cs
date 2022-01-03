@@ -196,7 +196,6 @@ namespace StateMachineStuff
         {
             currentState.UpdateStates();
 
-			Debug.Log(gemController.CurrentWeapon.CurrentEnergy);
 			//TODO: Move to all root states?
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 			if (verticalVelocity < terminalVelocity)
@@ -209,15 +208,15 @@ namespace StateMachineStuff
 
 			Debug.Log(currentState.CurrentSubState.CurrentSuperState);
 
-			if (currentState != null && currentState.CurrentSubState == null)
-				stateDebugText.text = "Current State: " + currentState.GetType().Name;
-			else if (currentState.CurrentSubState != null && currentState.CurrentSubState.CurrentSubState == null)
-				stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
-									"Current Substate: " + currentState.CurrentSubState.GetType().Name;
-			else
-				stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
-				"Current Substate: " + currentState.CurrentSubState.GetType().Name + "\n" +
-				"Curren substate substate: " + currentState.CurrentSubState.CurrentSubState.GetType().Name;
+			//if (currentState != null && currentState.CurrentSubState == null)
+			//	stateDebugText.text = "Current State: " + currentState.GetType().Name;
+			//else if (currentState.CurrentSubState != null && currentState.CurrentSubState.CurrentSubState == null)
+			//	stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
+			//						"Current Substate: " + currentState.CurrentSubState.GetType().Name;
+			//else
+			//	stateDebugText.text = "Current State: " + currentState.GetType().Name + "\n" +
+			//	"Current Substate: " + currentState.CurrentSubState.GetType().Name + "\n" +
+			//	"Curren substate substate: " + currentState.CurrentSubState.CurrentSubState.GetType().Name;
 		}
 
         private void LateUpdate()
@@ -290,16 +289,5 @@ namespace StateMachineStuff
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
-
-		public void SpawnProjectile(GameObject objectToSpawn)
-        {
-			CmdSpawnProjectile(objectToSpawn);
-        }
-
-		[Command]
-		private void CmdSpawnProjectile(GameObject objectToSpawn)
-        {
-			NetworkServer.Spawn(objectToSpawn);
-        }
 	}
 }

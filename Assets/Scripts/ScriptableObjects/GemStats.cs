@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ShootingType { Projectile, RayCast }
+
 [CreateAssetMenu(fileName = "New Gem Stats", menuName = "New Gem Stats")]
 public class GemStats : ScriptableObject
 {
@@ -20,6 +22,7 @@ public class GemStats : ScriptableObject
     [SerializeField] private float rechargeTime;
 
     [Header("Other")]
+    [SerializeField] private ShootingType shootingType;
     [SerializeField] private GameObject projectilePrefab;
 
     public float BaseDamage => baseDamage;
@@ -32,5 +35,6 @@ public class GemStats : ScriptableObject
     public int EnergyCostPerShot => eneryCostPerShot;
     public int RechargeCost => rechargeCost;
     public float RechargeTime => rechargeTime;
+    public ShootingType ShootingType => shootingType;
     public GameObject ProjectilePrefab => projectilePrefab;
 }

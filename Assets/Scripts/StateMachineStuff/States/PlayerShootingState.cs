@@ -51,15 +51,11 @@ namespace StateMachineStuff
         {
             CheckSwitchStates();
 
-            //Debug.Log(Ctx.GemController.CurrentWeapon.CurrentEnergy);
-
             if (Ctx.GemController.CurrentWeapon.CurrentEnergy == 0)
                 SwitchState(Factory.Reloading());
 
             if (!Ctx.GemController.CurrentWeapon.CanFire)
-                return;
-
-            Ctx.SpawnProjectile(Ctx.GemController.CurrentWeapon.FireProjectile());
+                return;          
         }
     }
 }
