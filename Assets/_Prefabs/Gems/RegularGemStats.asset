@@ -23,7 +23,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxEnergy: 10
+  maxEnergy: 15
   eneryCostPerShot: 1
   rechargeCost: 0
   rechargeTime: 5

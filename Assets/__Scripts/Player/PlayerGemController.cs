@@ -45,14 +45,7 @@ public class PlayerGemController : NetworkBehaviour
 
         if(currentWeapon != null)
         {
-            gemStats = currentWeapon.GemStats;
-            currentEnergy = gemStats.MaxEnergy;
-            firePoint = currentWeapon.FirePoint;
-            currentWeapon.GemController = this;
-            canFire = true;
-
-            if(gemStats.ProjectilePrefab != null)
-                gemProjectile = gemStats.ProjectilePrefab;
+            GemSetup();
         }
     }
 
@@ -61,12 +54,11 @@ public class PlayerGemController : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        Debug.Log("Can fire: " + canFire);
-        Debug.Log("Current energy:" + currentEnergy);
-
         if (canFire && input.IsShooting)
         {
             StartCoroutine(currentWeapon.Shoot());
+            UIEventsManager.Instance.ChangeGemEnergyUI(currentEnergy);
+            Debug.Log("Current energy:" + currentEnergy);
         }
         
     }
@@ -86,6 +78,21 @@ public class PlayerGemController : NetworkBehaviour
     private void OnDisable()
     {
         ChangeCurrentGem -= OnChangeCurrentGem;
+    }
+
+    private void GemSetup()
+    {
+        gemStats = currentWeapon.GemStats;
+        currentEnergy = gemStats.MaxEnergy;
+        firePoint = currentWeapon.FirePoint;
+        currentWeapon.GemController = this;
+        canFire = true;
+
+        if (gemStats.ProjectilePrefab != null)
+            gemProjectile = gemStats.ProjectilePrefab;
+
+        UIEventsManager.Instance.ChangeGemEnergyUI(currentEnergy);
+        UIEventsManager.Instance.SetMaxGemEnergyUI(gemStats.MaxEnergy);
     }
 
     ////TODO: Is this necessary if there is a reloading/recharing state?
@@ -110,6 +117,7 @@ public class PlayerGemController : NetworkBehaviour
     {
         currentEnergy = gemStats.MaxEnergy;
         canFire = true;
+        UIEventsManager.Instance.ChangeGemEnergyUI(currentEnergy);
     }
 
     public void ReduceCurrentEnergy(int energyCost)
