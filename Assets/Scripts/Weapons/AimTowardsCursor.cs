@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 public class AimTowardsCursor : MonoBehaviour
 {
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
+    [SerializeField] private GameObject cursorMarker;
     private Camera playerCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera = Camera.main;    
+        playerCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -22,6 +23,7 @@ public class AimTowardsCursor : MonoBehaviour
         Ray ray = playerCamera.ScreenPointToRay(screenCenterPoint);
         if(Physics.Raycast(ray, out RaycastHit hit, 999f, aimColliderMask))
         {
+            cursorMarker.transform.position = hit.point;
             transform.LookAt(hit.point);
         }
     }
