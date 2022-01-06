@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RegularGemStats
   m_EditorClassIdentifier: 
   baseDamage: 0
-  rateOfFire: 0.5
+  rateOfFire: 0.3
   isAutomatic: 1
   effectiveRange: 0
   maxRange: 0
@@ -23,9 +23,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxEnergy: 15
+  maxEnergy: 20
   eneryCostPerShot: 1
   rechargeCost: 0
-  rechargeTime: 5
+  rechargeTime: 1
   shootingType: 0
   projectilePrefab: {fileID: 299015833617233155, guid: eda2a2f604c577244b700118c44b9526, type: 3}

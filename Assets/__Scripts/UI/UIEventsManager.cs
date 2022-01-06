@@ -30,6 +30,9 @@ public class UIEventsManager : NetworkBehaviour
     public event Action<int> OnHealthChange;
     public void HealthChangeUI(int amount) => OnHealthChange?.Invoke(amount);
 
+    public event Action<int> OnSetMaxHealth;
+    public void SetMaxHealthUI(int amount) => OnSetMaxHealth?.Invoke(amount);
+
     public event Action<int> OnManaChanged;
     public void ManaChangedUI(int amount) => OnManaChanged?.Invoke(amount);
 

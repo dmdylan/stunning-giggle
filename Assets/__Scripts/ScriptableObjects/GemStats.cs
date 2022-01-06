@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ShootingType { Projectile, RayCast }
 
-[CreateAssetMenu(fileName = "New Gem Stats", menuName = "New Gem Stats")]
+[CreateAssetMenu(fileName = "New Gem Stats", menuName = "Scriptable Objects/Gem Stats")]
 public class GemStats : ScriptableObject
 {
     [Header("Damage Properties")]

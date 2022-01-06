@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 8066803913085783477}
   - component: {fileID: 3001623867409910447}
   - component: {fileID: 2120306263804773520}
+  - component: {fileID: -3580269316495530532}
   m_Layer: 31
   m_Name: Player
   m_TagString: Player
@@ -633,6 +634,21 @@ MonoBehaviour:
   syncInterval: 0.1
   baseGemPrefab: {fileID: 7244057019439182266, guid: 32f56c802f46241479ced51454690880, type: 3}
   gemLocation: {fileID: 644679066160757046}
+--- !u!114 &-3580269316495530532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507575438678498800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0286e758d5d95a4bbb3cb004b33cff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerBaseStats: {fileID: 11400000, guid: 98d3e46c3923c4c43bfe17a4395a143d, type: 2}
 --- !u!1 &1578454095753381667
 GameObject:
   m_ObjectHideFlags: 0

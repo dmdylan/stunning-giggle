@@ -24,6 +24,7 @@ public class PlayerInGameUI : MonoBehaviour
         UIEventsManager.Instance.OnHealthChange += Instance_OnHealthChange;
         UIEventsManager.Instance.OnManaChanged += Instance_OnManaChanged;
         UIEventsManager.Instance.OnSetMaxGemEnergy += Instance_OnSetMaxGemEnergy;
+        UIEventsManager.Instance.OnSetMaxHealth += Instance_OnSetMaxHealth;
     }
 
     private void OnDisable()
@@ -32,6 +33,7 @@ public class PlayerInGameUI : MonoBehaviour
         UIEventsManager.Instance.OnHealthChange -= Instance_OnHealthChange;
         UIEventsManager.Instance.OnManaChanged -= Instance_OnManaChanged;
         UIEventsManager.Instance.OnSetMaxGemEnergy -= Instance_OnSetMaxGemEnergy;
+        UIEventsManager.Instance.OnSetMaxHealth -= Instance_OnSetMaxHealth;
     }
 
     private void Instance_OnManaChanged(int value)
@@ -52,5 +54,10 @@ public class PlayerInGameUI : MonoBehaviour
     private void Instance_OnSetMaxGemEnergy(int value)
     {
         maxGemEnergyText.text = value.ToString();
+    }
+
+    private void Instance_OnSetMaxHealth(int value)
+    {
+        healthSlider.maxValue = value;
     }
 }
