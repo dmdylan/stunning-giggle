@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,24 @@ public class EnemyStats : ScriptableObject
     [SerializeField] private float baseDamage;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float attackRange;
-    [SerializeField] private float attackTime;
+    [SerializeField] private float attackRate;
+    [SerializeField] private LayerMask enemyLayerMask;
+    [SerializeField] private List<Ability> abilities;
 
-    public float MaxHealth { get { return maxHealth; } }
-    public float BaseDamage { get {  return baseDamage; } }
-    public float MoveSpeed { get { return moveSpeed; } }
-    public float AttackRange { get { return attackRange;} }
-    public float AttackTime { get { return attackTime; } }  
+    public float MaxHealth => maxHealth;
+    public float BaseDamage => baseDamage;
+    public float MoveSpeed => moveSpeed;
+    public float AttackRange => attackRange;
+    public float AttackRate => attackRate;
+    public LayerMask EnemyLayerMask => enemyLayerMask;
+    public List<Ability> Abilities => abilities;
+}
+
+[Serializable]
+public struct Ability
+{
+    public string abilityName;
+    public float abilityDamage;
+    public float abilityCooldown;
+    public string abilityDescription;
 }
