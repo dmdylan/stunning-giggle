@@ -1,14 +1,15 @@
 using Mirror;
-using NodeCanvas.BehaviourTrees;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
     [SerializeField] protected EnemyStats stats;
     [SerializeField] private GameObject enemyHealthBar;
+
+    [SerializeField] protected GameObject currentTarget;
 
     [SyncVar]
     protected EnemyState currentState;
@@ -16,12 +17,17 @@ public class EnemyStateMachine : NetworkBehaviour
     [SyncVar(hook = nameof(OnHealthChanged))]
     protected float currentHealth;
 
+    protected NavMeshAgent agent;
+
+    public EnemyState CurrentState { get { return currentState; } set { currentState = value; } }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
         currentHealth = stats.MaxHealth;
-        currentState = EnemyState.Seek;
-        InvokeRepeating("CheckState", 0f, .1f);
+        currentState = EnemyState.SetTarget;
+        agent = GetComponent<NavMeshAgent>();
+        InvokeRepeating("CheckState", 1f, .1f);
     }
 
     // Update is called once per frame
@@ -35,18 +41,22 @@ public class EnemyStateMachine : NetworkBehaviour
         //Physics.OverlapSphere
             yield return null;
     }
-
+    
+    [Server]
     void CheckState()
     {
         switch (currentState)
         {
-            case EnemyState.Seek:
+            case EnemyState.SetTarget:
+                SetBaseTarget();
+                break;
+            case EnemyState.MoveToTargetPosition:
+                MoveTowardsCurrentTarget();
+                break;
+            case EnemyState.CheckForCloserTarget:
                 Debug.Log(currentState);
                 break;
-            case EnemyState.Move:
-                Debug.Log(currentState);
-                break;
-            case EnemyState.Attack:
+            case EnemyState.AttackTarget:
                 Debug.Log(currentState);
                 break;
             default:
@@ -54,6 +64,24 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    protected virtual void SetBaseTarget()
+    {
+        var possibleTargets = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (var possibleTarget in possibleTargets)
+            Debug.Log(possibleTarget);
+
+        currentTarget = possibleTargets[Random.Range(0, possibleTargets.Length)];
+        currentState = EnemyState.MoveToTargetPosition;
+    }
+
+    protected virtual void MoveTowardsCurrentTarget()
+    {
+        agent.SetDestination(currentTarget.transform.position);
+        //currentState = EnemyState.CheckForCloserTarget;
+    }
+
+    [ServerCallback]
     protected void OnDamageTaken(float damageTaken)
     {
         currentHealth -= damageTaken;
@@ -78,8 +106,9 @@ public class EnemyStateMachine : NetworkBehaviour
 
 public enum EnemyState 
 { 
-    Seek,
-    Move,
-    Attack
+    SetTarget,
+    MoveToTargetPosition,
+    CheckForCloserTarget,
+    AttackTarget
 }
 

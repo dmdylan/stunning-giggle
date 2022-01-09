@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 1068543273579769790}
   - component: {fileID: 7896888521711806451}
   - component: {fileID: 4105842314101069845}
+  - component: {fileID: 1870033360481868534}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -445,6 +446,28 @@ MonoBehaviour:
   syncInterval: 0.1
   stats: {fileID: 11400000, guid: a679ecf242ce82443a197cd4d74b539d, type: 2}
   enemyHealthBar: {fileID: 8245608346297578617}
+--- !u!195 &1870033360481868534
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7258667902628017957}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8245608346297578617
 GameObject:
   m_ObjectHideFlags: 0
