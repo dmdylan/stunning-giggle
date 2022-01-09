@@ -8,17 +8,20 @@ using UnityEngine;
 public class EnemyStateMachine : NetworkBehaviour
 {
     [SerializeField] protected EnemyStats stats;
+    [SerializeField] private GameObject enemyHealthBar;
 
     [SyncVar]
     protected EnemyState currentState;
 
-    [SyncVar]
+    [SyncVar(hook = nameof(OnHealthChanged))]
     protected float currentHealth;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
         currentHealth = stats.MaxHealth;
+        currentState = EnemyState.Seek;
+        InvokeRepeating("CheckState", 0f, .1f);
     }
 
     // Update is called once per frame
@@ -31,6 +34,24 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         //Physics.OverlapSphere
             yield return null;
+    }
+
+    void CheckState()
+    {
+        switch (currentState)
+        {
+            case EnemyState.Seek:
+                Debug.Log(currentState);
+                break;
+            case EnemyState.Move:
+                Debug.Log(currentState);
+                break;
+            case EnemyState.Attack:
+                Debug.Log(currentState);
+                break;
+            default:
+                break;
+        }
     }
 
     protected void OnDamageTaken(float damageTaken)
@@ -46,6 +67,12 @@ public class EnemyStateMachine : NetworkBehaviour
     protected void Die()
     {
 
+    }
+
+    private void OnHealthChanged(float oldHealthValue, float newHealthValue)
+    {
+        if (newHealthValue >= stats.MaxHealth)
+            enemyHealthBar.SetActive(false);
     }
 }
 
