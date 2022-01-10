@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStateMachine : NetworkBehaviour
+public class Enemy : NetworkBehaviour
 {
     [SerializeField] protected EnemyStats stats;
     [SerializeField] private GameObject enemyHealthBar;
@@ -33,15 +33,11 @@ public class EnemyStateMachine : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    IEnumerator CheckForAttackablesInRange()
-    {
-        //Physics.OverlapSphere
-            yield return null;
-    }
-    
+    //protected abstract void Attack();
+
     [Server]
     void CheckState()
     {
@@ -49,11 +45,15 @@ public class EnemyStateMachine : NetworkBehaviour
         {
             case EnemyState.SetTarget:
                 SetBaseTarget();
+                Debug.Log(currentState);
                 break;
             case EnemyState.MoveToTargetPosition:
+                CheckIfInAttackRange();
                 MoveTowardsCurrentTarget();
+                Debug.Log(currentState);
                 break;
             case EnemyState.CheckForCloserTarget:
+                CheckForOtherTargetsInRange();
                 Debug.Log(currentState);
                 break;
             case EnemyState.AttackTarget:
@@ -64,21 +64,43 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    protected void CheckIfInAttackRange()
+    {
+        if(Vector3.Distance(transform.position, currentTarget.transform.position) <= stats.AttackRange)
+        {
+            currentState = EnemyState.AttackTarget;
+        }
+    }
+
     protected virtual void SetBaseTarget()
     {
         var possibleTargets = GameObject.FindGameObjectsWithTag("Player");
 
-        foreach (var possibleTarget in possibleTargets)
-            Debug.Log(possibleTarget);
+        if(possibleTargets.Length == 1)
+            currentTarget = possibleTargets[0];
+        else
+            currentTarget = possibleTargets[Random.Range(0, possibleTargets.Length + 1)];
 
-        currentTarget = possibleTargets[Random.Range(0, possibleTargets.Length)];
         currentState = EnemyState.MoveToTargetPosition;
     }
 
     protected virtual void MoveTowardsCurrentTarget()
     {
         agent.SetDestination(currentTarget.transform.position);
-        //currentState = EnemyState.CheckForCloserTarget;
+    }
+
+    protected virtual void CheckForOtherTargetsInRange()
+    {
+        var thingsInRange = Physics.OverlapSphere(transform.position, stats.SearchRange, stats.EnemyLayerMask);
+
+        if(thingsInRange.Length == 1)
+        {
+            currentTarget = thingsInRange[0].gameObject;
+        }
+        else if(thingsInRange.Length > 1)
+        {
+            currentTarget = thingsInRange[Random.Range(0, thingsInRange.Length + 1)].gameObject;
+        }
     }
 
     [ServerCallback]
@@ -101,6 +123,8 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (newHealthValue >= stats.MaxHealth)
             enemyHealthBar.SetActive(false);
+        else if(newHealthValue <= stats.MaxHealth && enemyHealthBar.activeSelf == false)
+            enemyHealthBar.SetActive(true);
     }
 }
 

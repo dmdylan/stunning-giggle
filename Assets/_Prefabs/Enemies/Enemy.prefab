@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  serverOnly: 0
+  serverOnly: 1
   visible: 0
   m_AssetId: 694132d6639ad68449282bd8e26b00d3
   hasSpawned: 0
@@ -446,6 +446,7 @@ MonoBehaviour:
   syncInterval: 0.1
   stats: {fileID: 11400000, guid: a679ecf242ce82443a197cd4d74b539d, type: 2}
   enemyHealthBar: {fileID: 8245608346297578617}
+  currentTarget: {fileID: 0}
 --- !u!195 &1870033360481868534
 NavMeshAgent:
   m_ObjectHideFlags: 0

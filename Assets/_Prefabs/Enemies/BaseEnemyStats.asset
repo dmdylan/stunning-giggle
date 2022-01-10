@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7006e7eb2714a3479d83a304a2db84e, type: 3}
   m_Name: BaseEnemyStats
   m_EditorClassIdentifier: 
-  maxHealth: 0
-  baseDamage: 0
-  moveSpeed: 0
-  attackRange: 0
+  maxHealth: 10
+  baseDamage: 1
+  moveSpeed: 8
+  attackRange: 2
   attackRate: 0
+  searchRange: 15
   enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483648
   abilities: []

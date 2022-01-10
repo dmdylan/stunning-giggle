@@ -11,6 +11,7 @@ public class EnemyStats : ScriptableObject
     [SerializeField] private float moveSpeed;
     [SerializeField] private float attackRange;
     [SerializeField] private float attackRate;
+    [SerializeField] private float searchRange;
     [SerializeField] private LayerMask enemyLayerMask;
     [SerializeField] private List<Ability> abilities;
 
@@ -19,6 +20,7 @@ public class EnemyStats : ScriptableObject
     public float MoveSpeed => moveSpeed;
     public float AttackRange => attackRange;
     public float AttackRate => attackRate;
+    public float SearchRange => searchRange;
     public LayerMask EnemyLayerMask => enemyLayerMask;
     public List<Ability> Abilities => abilities;
 }
