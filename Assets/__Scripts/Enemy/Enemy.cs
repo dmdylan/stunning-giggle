@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class Enemy : NetworkBehaviour
 {
@@ -11,6 +12,8 @@ public class Enemy : NetworkBehaviour
 
     [SerializeField] protected GameObject currentTarget;
 
+    [SerializeField] private GameObject testArm;
+
     [SyncVar]
     protected EnemyState currentState;
 
@@ -18,6 +21,7 @@ public class Enemy : NetworkBehaviour
     protected float currentHealth;
 
     protected NavMeshAgent agent;
+    private bool isAttacking = false;
 
     public EnemyState CurrentState { get { return currentState; } set { currentState = value; } }
 
@@ -36,7 +40,22 @@ public class Enemy : NetworkBehaviour
 
     }
 
-    //protected abstract void Attack();
+    protected virtual void Attack()
+    {
+        if (!isAttacking)
+        {
+            agent.isStopped = true;
+            isAttacking = true;
+
+            testArm.SetActive(true);
+
+            var tween = testArm.transform.DOLocalRotate(new Vector3(0, -90f), .5f);
+
+            tween.OnComplete(() => ChangeState(EnemyState.BetweenAttacks));
+            tween.OnComplete(() => isAttacking = false);
+            tween.OnComplete(() => testArm.SetActive(false));
+        }
+    }
 
     [Server]
     void CheckState()
@@ -57,11 +76,19 @@ public class Enemy : NetworkBehaviour
                 Debug.Log(currentState);
                 break;
             case EnemyState.AttackTarget:
+                Attack();
+                break;
+            case EnemyState.BetweenAttacks:
                 Debug.Log(currentState);
                 break;
             default:
                 break;
         }
+    }
+
+    private void ChangeState(EnemyState newState)
+    {
+        currentState = newState;
     }
 
     protected void CheckIfInAttackRange()
@@ -133,6 +160,7 @@ public enum EnemyState
     SetTarget,
     MoveToTargetPosition,
     CheckForCloserTarget,
-    AttackTarget
+    AttackTarget,
+    BetweenAttacks
 }
 
